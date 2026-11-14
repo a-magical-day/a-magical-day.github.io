@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#181030">
+<title>A Magical Day</title>
+<meta property="og:title" content="A Magical Day">
+<meta property="og:description" content="Henning wird 33. Das Spiel zur Einladung.">
+<meta property="og:image" content="https://bottlecop.github.io/A-Magical-Day/vorschau.png">
+<meta property="og:image:width" content="824">
+<meta property="og:image:height" content="824">
+<meta property="og:url" content="https://bottlecop.github.io/A-Magical-Day/">
+<meta property="og:type" content="website">
+<style>
+@font-face{font-family:PS2P;src:url(PressStart2P.ttf);font-display:block}
+/* --px = ein Game-Boy-Pixel; der Bildschirm ist immer 160 davon breit */
+:root{--px:calc(min(100vw,60dvh)/160);--ink:#181030;--paper:#f8f8e8}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--ink);color:var(--ink);font:calc(var(--px)*6)/1.5 PS2P,monospace;
+  display:flex;justify-content:center;overflow:hidden;
+  -webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#game{width:calc(var(--px)*160);height:100dvh;display:flex;flex-direction:column;background:var(--paper);
+  padding-bottom:env(safe-area-inset-bottom)}
+
+#scene{flex:1;min-height:calc(var(--px)*100);position:relative;overflow:hidden;display:grid;place-items:center;
+  image-rendering:pixelated;border-bottom:calc(var(--px)*2) solid var(--ink);
+  background:repeating-conic-gradient(#4ae4de 0 25%,#3ed6d0 0 50%) 0 0/calc(var(--px)*16) calc(var(--px)*16);
+  animation:scroll 2s steps(8) infinite}
+/* Szenenwechsel in groben Stufen wie auf dem Game Boy: rosa Grund blendet ein, Einhorn rutscht, Kopf faellt von oben rein */
+#scene::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .6s steps(6);
+  background:repeating-conic-gradient(#f4bbd0 0 25%,#f7c9da 0 50%) 0 0/calc(var(--px)*16) calc(var(--px)*16)}
+#scene.uni::before,#scene.bier::before{opacity:1}
+#uni{position:absolute;inset:0;margin:auto;width:calc(var(--px)*108);height:calc(var(--px)*102);image-rendering:pixelated;
+  translate:-160% 0;transition:translate .6s steps(10)}
+#scene.uni #uni,#scene.bier #uni{translate:0 0}
+/* Titelbild: Einhorn tanzt ueber den Regenbogen hin und her (transform = Weg + Blickrichtung, translate = Huepfer) */
+#bow{position:absolute;left:0;bottom:0;width:100%;image-rendering:pixelated;display:none}
+#title:not([hidden])~#bow{display:block}
+#title:not([hidden])~#uni{margin-bottom:calc(var(--px)*40);animation:dance 5s linear infinite,hop .3s steps(2) infinite alternate}
+@keyframes hop{to{translate:0 calc(var(--px)*-5)}}
+@keyframes dance{
+  0%{transform:translate(calc(var(--px)*-26),calc(var(--px)*2)) scaleX(-1)}
+  12.5%{transform:translate(calc(var(--px)*-13),calc(var(--px)*1)) scaleX(-1)}
+  25%{transform:translate(0,0) scaleX(-1)}
+  37.5%{transform:translate(calc(var(--px)*13),calc(var(--px)*1)) scaleX(-1)}
+  49.9%{transform:translate(calc(var(--px)*26),calc(var(--px)*2)) scaleX(-1)}
+  50%{transform:translate(calc(var(--px)*26),calc(var(--px)*2))}
+  62.5%{transform:translate(calc(var(--px)*13),calc(var(--px)*1))}
+  75%{transform:translate(0,0)}
+  87.5%{transform:translate(calc(var(--px)*-13),calc(var(--px)*1))}
+  100%{transform:translate(calc(var(--px)*-26),calc(var(--px)*2))}
+}
+#scene.bier #uni{margin-left:calc(var(--px)*2)}
+#scene.uni #head{translate:0 -260%}
+@keyframes scroll{to{background-position:calc(var(--px)*16) calc(var(--px)*16)}}
+#head{position:relative;width:calc(var(--px)*60);height:calc(var(--px)*93);image-rendering:pixelated;animation:bob 1.6s steps(4) infinite alternate;
+  translate:0 0;transition:translate .6s steps(10)}
+#scene.bier #head{position:absolute;right:calc(var(--px)*6);bottom:calc(var(--px)*4);width:calc(var(--px)*40);height:calc(var(--px)*62)}
+@keyframes bob{from{transform:translateY(calc(var(--px)*-3))}to{transform:translateY(calc(var(--px)*3))}}
+#title{position:absolute;top:calc(var(--px)*8);left:0;right:0;text-align:center;color:var(--paper);
+  font-size:calc(var(--px)*11);line-height:1.3;white-space:nowrap;text-shadow:calc(var(--px)*1) calc(var(--px)*1) 0 var(--ink)}
+#title small{display:block;font-size:calc(var(--px)*6);margin-top:calc(var(--px)*3)}
+
+.box{font:inherit;color:inherit;text-align:left;background:var(--paper);border:calc(var(--px)*2) solid var(--ink);
+  border-radius:calc(var(--px)*3);box-shadow:inset 0 0 0 calc(var(--px)*1) var(--paper),inset 0 0 0 calc(var(--px)*2) #a8a0c8;
+  padding:calc(var(--px)*5) calc(var(--px)*6);margin:calc(var(--px)*2) calc(var(--px)*2) 0}
+#box{height:calc(var(--px)*68);position:relative;display:flex;align-items:flex-start;width:calc(100% - var(--px)*4);
+  hyphens:auto;overflow-wrap:break-word;overflow:hidden}
+#rest{visibility:hidden}
+#more{position:absolute;right:calc(var(--px)*5);bottom:calc(var(--px)*3);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+
+#choices{min-height:calc(var(--px)*82);display:flex;flex-direction:column;padding-bottom:calc(var(--px)*2)}
+#choices button{cursor:pointer}
+#choices button:active,#choices button:focus-visible{background:var(--ink);color:var(--paper);outline:0}
+#choices.grid{display:grid;grid-template-columns:repeat(7,1fr);align-content:start}
+#choices.grid button{text-align:center;padding:calc(var(--px)*4) 0;margin:calc(var(--px)*1)}
+[hidden]{display:none!important}
+/* 4. Durchlauf: nur noch ein riesiger JA-Knopf */
+#game.full #scene{display:none}
+#game.full #choices{flex:1}
+#game.full #choices button{flex:1;margin-bottom:calc(var(--px)*2);text-align:center;font-size:calc(var(--px)*56)}
+@media (prefers-reduced-motion:reduce){#head,#scene,#uni{animation:none!important}#head,#uni,#scene::before{transition:none}}
+.fast *,.fast *::before{transition:none!important}
+</style>
+</head>
+<body>
+<main id="game">
+  <div id="scene" class="uni"><!-- Startzustand = Titelbild, sonst fliegt beim Laden der Kopf raus -->
+    <div id="title" hidden>A MAGICAL DAY<small>Henning wird 33</small></div>
+    <canvas id="head" width="20" height="31" role="img" aria-label="Hennings schwebender Pixel-Kopf"></canvas>
+    <img id="bow" src="regenbogen.png" alt="">
+    <img id="uni" src="einhorn_0.png" alt="Pixel-Einhorn">
+  </div>
+  <button id="box" class="box"><span><span id="said"></span><span id="rest"></span></span><span id="more" hidden>▼</span></button>
+  <div id="choices"></div>
+</main>
+<script>
+// ───────── HIER ANPASSEN ─────────
+const GROUP_LINK = 'https://chat.whatsapp.com/KrDInaEqmDdAFxPudRRUSu';   // WhatsApp-Gruppenlink eintragen, z.B. 'https://chat.whatsapp.com/…'
+
+const NAMES = {   // bei "Darf ich einen anderen?" wechselt das Geschlecht
+  m: ['Hector der Gutbestückte', 'Baron Rülps von Hopfen', 'Uwe der Fragwürdige', 'Sir Schluckspecht',
+      'Horst der Trinkfeste', 'Detlef der Geschmeidige', 'Rüdiger Rakete', 'Kevin der Unvermeidliche',
+      'Graf Zapf von Hahn', 'Günther der Feuchte', 'Olaf der Halbvolle', 'Lord Promille'],
+  f: ['Gisela die Unaufhaltsame', 'Brunhilde Bierschreck', 'Chantal von und zu Durst', 'Ingeborg die Gnadenlose',
+      'Mandy Mörtel', 'Dolores Donnerschluck', 'Heidrun die Standfeste', 'Prinzessin Pilsette',
+      'Gräfin Gerstensaft', 'Uschi die Unersättliche'],
+};
+
+// Jeder Knoten: pages = [[Gesicht, Text], …]  (ein Text = eine Textbox-Seite, max. ~90 Zeichen)
+// Gesichter: neutral, happy, smug, annoyed, surprised.   {name} = Zufallsname, {typed} = getippte Buchstaben
+// scene: 'uni' = das Einhorn spricht allein, 'bier' = Einhorn trinkt, Kopf klein daneben
+// again = Ersatz-Seiten beim 2. Durchlauf (kürzer, flapsiger), third = beim 3. Durchlauf.
+// Beim 3. Mal geht es nach dem Einhorn direkt zum Knoten 'third', ab dem 4. Mal gibt es nur noch den Knoten 'ja'.
+// Danach entweder choices = [[Antwort, Zielknoten], …]  oder  next = Zielknoten  oder  input = Zielknoten (Namens-Eingabe)
+const STORY = {
+  title: { scene: 'uni', title: true, pages: [], choices: [['▶ START', 'hello']] },
+
+  hello: {
+    scene: 'uni',
+    pages: [
+      ['neutral', 'Hallihallo! Willkommen bei A MAGICAL DAY!'],
+      ['neutral', 'Ich bin das Einhorn von der Einladung. Wie schön, dass du da bist! Ich hab dich jetzt schon lieb.'],
+      ['neutral', 'Ich erzähle dir jetzt alles über die zauberhafte Party von unserem lieben Henning. Also, es war einmal ein'],
+    ],
+    again: [
+      ['neutral', 'Hallihallo! Willkommen zurück bei A MAGI'],
+    ],
+    third: [
+      ['neutral', 'Halli'],
+    ],
+    next: 'intro',
+  },
+  third: {
+    pages: [
+      ['annoyed', 'NEIN.'],
+      ['surprised', 'Zum DRITTEN Mal? Was stimmt denn nicht mit dir?'],
+      ['annoyed', 'Kurzfassung: Party. Freitag. Du kommst.'],
+      ['smug', 'Knopf. Jetzt.'],
+    ],
+    choices: [['▶ Ab in die Gruppe!', GROUP_LINK || 'nolink'], ['Nochmal von vorn', 'title']],
+  },
+  ja: { full: true, pages: [], choices: [['JA', GROUP_LINK || 'nolink']] },
+  intro: {
+    pages: [
+      ['annoyed', 'Danke, Einhorn. Das reicht. Ab hier rede ich.'],
+      ['neutral', 'So. Da bist du ja endlich.'],
+      ['annoyed', 'Hat ja auch nur eine halbe Ewigkeit gedauert, bis du auf den Link getippt hast.'],
+      ['smug', 'Ich bin Henning. Beziehungsweise sein Kopf. Der mit Abstand wichtigste Teil.'],
+      ['neutral', 'Du darfst jetzt etwas sagen. Fass dich kurz.'],
+    ],
+    again: [
+      ['annoyed', 'Stopp. DU schon wieder?'],
+      ['annoyed', 'Wir hatten das doch gerade erst. Hast du nicht aufgepasst? Natürlich nicht.'],
+      ['neutral', 'Gut. Nochmal. Ganz. Langsam. Ich: Henning. Du: Gast.'],
+      ['smug', 'Jetzt du. Sag irgendwas.'],
+    ],
+    choices: [['Hallo Henning!', 'hi'], ['Warum schwebst du?', 'float'], ['Wer bist du nochmal?', 'who']],
+  },
+  hi: {
+    pages: [
+      ['happy', 'Exzellent. Höflichkeit!'],
+      ['smug', 'Dass ich das bei dir noch erleben darf. Ich bin fast gerührt. Fast.'],
+    ],
+    again: [
+      ['happy', 'Ja. Hallo. Toll gemacht.'],
+    ],
+    next: 'nameAsk',
+  },
+  float: {
+    pages: [
+      ['smug', 'Weil ich es kann.'],
+      ['neutral', 'Körper sind was für Leute, die es nötig haben. Ich bestehe aus purem Verstand. Und Bart.'],
+      ['annoyed', 'Nächste Frage. Nein, halt, doch nicht. Jetzt rede wieder ich.'],
+    ],
+    again: [
+      ['annoyed', 'Ich. Kann. Das. Weiter.'],
+    ],
+    next: 'nameAsk',
+  },
+  who: {
+    pages: [
+      ['surprised', 'Wer ich …  WER ICH BIN?!'],
+      ['annoyed', 'Du hast von mir eine Einladung mit einem Einhorn bekommen. Konzentrier dich bitte.'],
+      ['neutral', 'Ich erkläre es dir später nochmal. Langsam. Mit Bildern.'],
+    ],
+    again: [
+      ['surprised', 'Im Ernst?!'],
+      ['annoyed', 'Henning. HEN-NING. Schreib es dir auf die Hand.'],
+    ],
+    next: 'nameAsk',
+  },
+
+  nameAsk: {
+    pages: [
+      ['neutral', 'Bevor wir fortfahren: Wie heißt du eigentlich?'],
+      ['smug', 'Tipp deinen Namen ein. Ich notiere mir das. Vielleicht.'],
+    ],
+    again: [
+      ['neutral', 'Name. Tippen. Los.'],
+    ],
+    input: 'nameCut',
+  },
+  nameCut: {
+    pages: [
+      ['annoyed', '„{typed}…“  STOPP!'],
+      ['annoyed', 'Das dauert mir entschieden zu lange. Ich habe nicht den ganzen Tag Zeit. Du übrigens auch nicht.'],
+      ['neutral', 'Ich mach das selbst. Wie immer. Ich nenne dich ab jetzt:'],
+      ['happy', '{name}!'],
+      ['smug', 'Fantastisch. Passt herausragend zu dir. Viel besser als das, was deine Eltern sich ausgedacht haben.'],
+    ],
+    again: [
+      ['annoyed', '„{typed}…“  Zu langsam.'],
+      ['neutral', 'Du heißt:'],
+      ['happy', '{name}!'],
+      ['smug', 'Fertig. Nicht diskutieren.'],
+    ],
+    choices: [['Das ist nicht mein Name!', 'nameNo'], ['Gefällt mir.', 'nameYes'], ['Darf ich einen anderen?', 'nameNew']],
+  },
+  nameNo: {
+    pages: [['smug', 'Jetzt schon. Gern geschehen, {name}.']],
+    again: [
+      ['smug', 'Doch.'],
+    ],
+    next: 'party',
+  },
+  nameYes: {
+    pages: [['happy', 'Natürlich gefällt er dir. Er ist ja von mir.']],
+    again: [
+      ['happy', 'Weiß ich.'],
+    ],
+    next: 'party',
+  },
+  nameNew: {
+    reroll: true,
+    pages: [
+      ['annoyed', 'Undankbar. Aber gut, ich bin heute großzügig:'],
+      ['happy', '{name}!'],
+      ['neutral', 'Das ist mein letztes Angebot. Eigentlich war schon das erste zu gut für dich.'],
+    ],
+    again: [
+      ['annoyed', 'Meinetwegen.'],
+      ['happy', '{name}!'],
+      ['neutral', 'Ende der Namensvergabe.'],
+    ],
+    next: 'party',
+  },
+
+  party: {
+    pages: [
+      ['neutral', 'Zur Sache, {name}.'],
+      ['happy', 'Ich werde 33! Ein exzellentes Alter. Ich sehe herausragend aus und bin weiser denn je.'],
+      ['smug', 'Das muss gefeiert werden. Von dir. Mit mir. Hauptsächlich mich.'],
+      ['neutral', 'Freitag, 18.12., ab 18 Uhr. Beim Rauhen Hause 45, Hamburg.'],
+      ['annoyed', 'Stand alles auf der Einladung. Aber du hast ja vermutlich nur das Einhorn angeguckt.'],
+      ['neutral', 'Fragen? Aber bitte nur gute.'],
+    ],
+    again: [
+      ['neutral', 'Aufgepasst, {name}.'],
+      ['happy', 'Ich: 33. Exzellent.'],
+      ['neutral', 'Freitag. 18.12. 18 Uhr. Beim Rauhen Hause 45. Hamburg.'],
+      ['annoyed', 'Oder soll ich es dir aufmalen?'],
+    ],
+    choices: [['Was gibt es zu trinken?', 'drink'], ['Muss ich was mitbringen?', 'bring'], ['33? So alt schon?', 'old']],
+  },
+  drink: {
+    pages: [
+      ['happy', 'Endlich eine intelligente Frage! Ich bin überrascht. Positiv. Ausnahmsweise.'],
+      ['smug', 'Es wird feucht. Es wird fröhlich. In genau dieser Reihenfolge.'],
+      ['neutral', 'Du trinkst, was ich dir hinstelle, und du wirst es fantastisch finden. Das ist keine Bitte.'],
+    ],
+    again: [
+      ['smug', 'Getränke: ja. Viele. Auch für dich.'],
+    ],
+    next: 'ask',
+  },
+  bring: {
+    pages: [
+      ['neutral', 'Gute Laune, Durst und ein Mindestmaß an Niveau.'],
+      ['smug', 'Bei Letzterem drücke ich bei dir ein Auge zu. Ich kenne dich ja.'],
+      ['neutral', 'Alles Weitere erfährst du in der Gruppe. Lesen kannst du ja. Hoffe ich.'],
+    ],
+    again: [
+      ['neutral', 'Durst. Laune. Dich selbst. Mehr kannst du dir eh nicht merken.'],
+    ],
+    next: 'ask',
+  },
+  old: {
+    pages: [
+      ['surprised', 'Wie bitte?!'],
+      ['annoyed', 'Ich bin wie ein herausragender Wein. Du bist eher so … Traubensaft.'],
+      ['smug', 'Aber keine Sorge: Auch Traubensaft ist eingeladen.'],
+    ],
+    again: [
+      ['annoyed', 'Ich: Wein. Du: Traubensaft. Hatten wir schon.'],
+    ],
+    next: 'ask',
+  },
+
+  ask: {
+    pages: [
+      ['neutral', 'Also, {name}. Jetzt kommt der Teil, in dem du etwas entscheiden darfst. Genieß es.'],
+      ['happy', 'Bist du dabei?'],
+    ],
+    again: [
+      ['neutral', 'Und jetzt das schwere Wort mit zwei Buchstaben, {name}.'],
+      ['happy', 'Bist du dabei?'],
+    ],
+    choices: [['Ja, klar!', 'yes'], ['Vielleicht …', 'no1'], ['Nein.', 'no1']],
+  },
+  no1: {
+    pages: [
+      ['annoyed', 'Falsche Antwort.'],
+      ['annoyed', 'Das war keine echte Frage, {name}. Das war eine Formalität.'],
+      ['neutral', 'Du bekommst eine zweite Chance, weil ich so ein herausragender Mensch bin. Bist du dabei?'],
+    ],
+    again: [
+      ['annoyed', 'Nein. Also: doch.'],
+      ['neutral', 'Nochmal. Bist du dabei?'],
+    ],
+    choices: [['Ja.', 'yesForced'], ['Ich hab da schon was vor.', 'no2'], ['Nein.', 'no2']],
+  },
+  no2: {
+    pages: [
+      ['annoyed', 'Was auch immer du vorhast: Es ist schlechter als meine Party.'],
+      ['smug', 'Das ist keine Meinung. Das ist Statistik.'],
+      ['annoyed', 'Sag es ab. Ich warte. … … … So. Erledigt. Bist du dabei?'],
+    ],
+    again: [
+      ['annoyed', 'Du übst das, oder?'],
+      ['smug', 'J. A. Ja. Sprich mir nach. Bist du dabei?'],
+    ],
+    choices: [['Ja.', 'yesForced'], ['Nein!', 'no3']],
+  },
+  no3: {
+    pages: [
+      ['surprised', 'Unfassbar. Diese Sturheit!'],
+      ['annoyed', 'Fast schon beeindruckend, wenn sie nicht so anstrengend wäre.'],
+      ['smug', 'Ich habe dir das Antworten jetzt etwas vereinfacht. Bitte sehr. Bist du dabei?'],
+    ],
+    again: [
+      ['annoyed', 'Herausragend stur.'],
+      ['smug', 'Ein Knopf. Den schaffst sogar du.'],
+    ],
+    choices: [['Ja.', 'yesForced']],
+  },
+  yes: {
+    pages: [
+      ['happy', 'Exzellent! Eine herausragende Entscheidung.'],
+      ['smug', 'Vermutlich deine beste dieses Jahr. Gut, die Konkurrenz war nicht groß.'],
+    ],
+    again: [
+      ['happy', 'Exzellent. Geht doch.'],
+    ],
+    next: 'unicorn',
+  },
+  yesForced: {
+    pages: [
+      ['happy', 'Na also. Fantastisch!'],
+      ['smug', 'Ich wusste, dass du völlig freiwillig zusagst. Ich habe ein Gespür für Menschen.'],
+    ],
+    again: [
+      ['happy', 'Fantastisch. Hat ja nur ewig gedauert.'],
+    ],
+    next: 'unicorn',
+  },
+
+  unicorn: {
+    scene: 'bier',
+    pages: [
+      ['neutral', 'Das Einhorn kennst du ja schon. Es ist inzwischen beim dritten Bier.'],
+      ['smug', 'Es trinkt mit. Es trinkt mehr als du. Versuch gar nicht erst mitzuhalten, {name}.'],
+      ['annoyed', 'Und starr es nicht so an. Es ist exzellent, aber eitel. Wie alle großen Persönlichkeiten.'],
+    ],
+    again: [
+      ['neutral', 'Einhorn. Bier. Immer noch.'],
+      ['annoyed', 'Nicht anstarren.'],
+    ],
+    next: 'end',
+  },
+  end: {
+    pages: [
+      ['neutral', 'So. Unten ist gleich ein Knopf. Der führt in die WhatsApp-Gruppe mit allen weiteren Infos.'],
+      ['happy', 'Drück ihn. Das schaffst du. Ich glaube an dich, {name}.'],
+      ['smug', 'Ein bisschen.'],
+    ],
+    again: [
+      ['neutral', 'Knopf. Unten. Drücken.'],
+      ['smug', 'Das ist die Stelle, an der du letztes Mal gescheitert bist.'],
+    ],
+    choices: [['▶ Ab in die Gruppe!', GROUP_LINK || 'nolink'], ['Nochmal von vorn', 'title']],
+  },
+  nolink: {
+    pages: [
+      ['annoyed', 'Die Gruppe gibt es noch nicht. Der Henning mit Körper war zu faul. Typisch.'],
+      ['neutral', 'Er meldet sich bei dir. Bleib einfach so lange hier stehen und bewundere mich.'],
+    ],
+    again: [
+      ['annoyed', 'Die Gruppe gibt es immer noch nicht. Frag nicht mich.'],
+    ],
+    next: 'end',
+  },
+};
+
+// ───────── KOPF ─────────
+// 20×31 Pixel, aus talking_head.jpeg abgetastet. '0' = durchsichtig.
+const PAL = { 1: '#1f0e07', 2: '#0f0400', 3: '#000000', 4: '#f7ae86', 5: '#f8c29b', 6: '#f7d2ba', 7: '#fffcf9', 8: '#301408', 9: '#ce493a' };
+const HEAD = [
+  '00000011111000000000', '00000112222110000000', '00111221212211100000', '00011121112211110000',
+  '11122111221131111000', '01222221122111422200', '11111112244444442210', '02221134445555554210',
+  '11212444666666655611', '11244455555555556621', '12446666555566666621', '22445555655655555621',
+  '11445555555555555621', '12445666655666666621', '22451111155111116621', '41455737555673766686',
+  '41455555456666666686', '41455555456455566686', '41455555456455556686', '08455555456455556680',
+  '08455554456645555680', '08855554555645555880', '08855555555555555880', '00855558888885555800',
+  '00885881155118858800', '00881199999999118800', '00081114418441188000', '00081115118151188000',
+  '00008111111111880000', '00000881888818800000', '00000008888880000000',
+];
+// Änderungen gegenüber HEAD als [Zeile, Spalte, Pixel]
+const FACES = {
+  neutral: [],
+  happy: [[13, 4, '11111'], [14, 4, '55555'], [13, 11, '11111'], [14, 11, '66666'], [25, 6, '1'], [25, 13, '1'], [24, 6, '9'], [24, 13, '9']],
+  smug: [[13, 11, '11111'], [14, 11, '66666'], [24, 14, '9']],
+  annoyed: [[15, 8, '1'], [15, 11, '1'], [25, 6, '1'], [25, 13, '1'], [26, 6, '9'], [26, 13, '9']],
+  surprised: [[13, 4, '11111'], [14, 4, '57375'], [13, 11, '11111'], [14, 11, '67376'], [25, 6, '11'], [25, 12, '11']],
+};
+const MOUTHS = [[], [[25, 8, '3333']], [[26, 7, '333333'], [27, 7, '999999']]];
+const BLINK = [[15, 5, '888'], [15, 12, '888']];
+
+const $ = id => document.getElementById(id);
+const ctx = $('head').getContext('2d');
+let face = 'neutral', mouth = 0, blink = false;
+
+function draw() {
+  const rows = HEAD.map(r => [...r]);
+  const patches = [...FACES[face], ...MOUTHS[mouth], ...(blink ? BLINK : [])];
+  for (const [r, c, px] of patches) [...px].forEach((p, i) => rows[r][c + i] = p);
+  ctx.clearRect(0, 0, 20, 31);
+  rows.forEach((row, y) => row.forEach((p, x) => { if (p != 0) { ctx.fillStyle = PAL[p]; ctx.fillRect(x, y, 1, 1); } }));
+}
+// gluck, gluck: im Bier-Bild wechseln die beiden Trink-Posen
+setInterval(() => { if (node.scene === 'bier') $('uni').src = $('uni').src.includes('_1') ? 'einhorn_2.png' : 'einhorn_1.png'; }, 350);
+setInterval(() => { blink = true; draw(); setTimeout(() => { blink = false; draw(); }, 140); }, 3300);
+
+// ───────── DIALOG ─────────
+const FAST = location.search.includes('fast');   // Testmodus: Text sofort komplett, keine Uebergaenge
+document.documentElement.classList.toggle('fast', FAST);
+const pick = () => NAMES[sex][Math.random() * NAMES[sex].length | 0];
+let node, page, text, shown, timer, sex, name, typed = '';
+// Zahl der Durchlaeufe gilt nur bis zum Neuladen der Seite
+let runs = 0, level = 0;   // level = wie oft vor dem aktuellen Durchlauf schon gespielt wurde
+try { localStorage.removeItem('runs'); } catch {}   // Rest aus einer frueheren Version aufraeumen
+const pages = () => level >= 2 && node.third || level >= 1 && node.again || node.pages;
+
+function go(id) {
+  if (/^https?:/.test(id)) { location.href = id; return; }
+  if (id === 'title') { level = runs; sex = Math.random() < .5 ? 'm' : 'f'; name = pick(); if (level >= 3) id = 'ja'; }
+  if (id === 'hello') runs++;
+  if (id === 'intro' && level === 2) id = 'third';
+  node = STORY[id];
+  $('game').classList.toggle('full', !!node.full);
+  if (node.reroll) { sex = sex === 'm' ? 'f' : 'm'; name = pick(); }
+  $('scene').className = node.scene || '';
+  $('uni').src = node.scene === 'bier' ? 'einhorn_1.png' : 'einhorn_0.png';
+  $('title').hidden = !node.title;
+  $('choices').replaceChildren();
+  $('choices').className = '';
+  page = 0;
+  showPage();
+}
+
+function showPage() {
+  const p = pages()[page];
+  $('box').hidden = !p;
+  if (!p) { face = 'neutral'; draw(); return showChoices(); }
+  face = p[0];
+  text = p[1].replaceAll('{name}', name).replaceAll('{typed}', typed);
+  shown = FAST ? text.length : 0;
+  $('more').hidden = true;
+  clearInterval(timer);
+  timer = setInterval(type, 32);
+  type();
+}
+
+function type() {
+  shown = Math.min(shown + 1, text.length);
+  // Rest unsichtbar mitsetzen, damit der Zeilenumbruch beim Tippen nicht springt
+  $('said').textContent = text.slice(0, shown);
+  $('rest').textContent = text.slice(shown);
+  mouth = [1, 2, 1, 0][(shown >> 1) % 4];
+  if (shown >= text.length) {
+    clearInterval(timer);
+    mouth = 0;
+    const last = page === pages().length - 1;
+    $('more').hidden = last && !node.next;
+    if (last && !node.next) showChoices();
+  }
+  // spricht das Einhorn, huepft es im Takt (es hat keinen Mund)
+  $('uni').style.transform = node.scene === 'uni' && mouth ? 'translateY(calc(var(--px)*-2))' : '';
+  draw();
+}
+
+function advance() {
+  if (!text || $('box').hidden) return;
+  if (shown < text.length) { shown = text.length - 1; type(); }
+  else if (page < pages().length - 1) { page++; showPage(); }
+  else if (node.next) go(node.next);
+}
+
+function button(label, onclick) {
+  const b = document.createElement('button');
+  b.className = 'box';
+  b.textContent = label;
+  b.onclick = onclick;
+  $('choices').append(b);
+}
+
+function showChoices() {
+  if (node.input) {
+    typed = '';
+    $('choices').className = 'grid';
+    $('said').textContent = 'NAME: _';
+    for (const ch of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') button(ch, () => {
+      typed += ch;
+      $('said').textContent = 'NAME: ' + typed + '_';
+      if (typed.length === 2) go(node.input);   // der Kopf verliert die Geduld
+    });
+  } else for (const [label, target] of node.choices) button(label, () => go(target));
+}
+
+$('box').onclick = $('scene').onclick = advance;
+
+// Selbsttest: jedes Sprungziel muss existieren
+for (const [id, n] of Object.entries(STORY))
+  for (const t of [n.next, n.input, ...(n.choices || []).map(c => c[1])])
+    console.assert(!t || STORY[t] || /^https?:/.test(t), `Knoten "${id}" zeigt auf unbekanntes Ziel "${t}"`);
+
+go('title');
+if (STORY[location.hash.slice(1)]) go(location.hash.slice(1));   // #knoten = Start an beliebiger Stelle (zum Testen)
+</script>
+</body>
+</html>
