@@ -7,10 +7,10 @@
 <title>A Magical Day</title>
 <meta property="og:title" content="A Magical Day">
 <meta property="og:description" content="Henning wird 33. Das Spiel zur Einladung.">
-<meta property="og:image" content="https://bottlecop.github.io/A-Magical-Day/vorschau.png">
+<meta property="og:image" content="https://a-magical-day.github.io/vorschau.png">
 <meta property="og:image:width" content="824">
 <meta property="og:image:height" content="824">
-<meta property="og:url" content="https://bottlecop.github.io/A-Magical-Day/">
+<meta property="og:url" content="https://a-magical-day.github.io/">
 <meta property="og:type" content="website">
 <style>
 @font-face{font-family:PS2P;src:url(PressStart2P.ttf);font-display:block}
@@ -118,6 +118,7 @@ const NAMES = {   // bei "Darf ich einen anderen?" wechselt das Geschlecht
 // Danach entweder choices = [[Antwort, Zielknoten], …]  oder  next = Zielknoten  oder  input = Zielknoten (Namens-Eingabe)
 const STORY = {
   title: { scene: 'uni', title: true, pages: [], choices: [['▶ START', 'hello']] },
+  ja: { full: true, pages: [], choices: [['JA', GROUP_LINK || 'nolink']] },
 
   hello: {
     scene: 'uni',
@@ -136,270 +137,268 @@ const STORY = {
   },
   third: {
     pages: [
-      ['annoyed', 'NEIN.'],
-      ['surprised', 'Zum DRITTEN Mal? Was stimmt denn nicht mit dir?'],
-      ['annoyed', 'Kurzfassung: Party. Freitag. Du kommst.'],
-      ['smug', 'Knopf. Jetzt.'],
+      ['surprised', 'Zum DRITTEN Mal?'],
+      ['smug', 'Ich bin geschmeichelt. Aber selbst ich habe mir jetzt alles gesagt.'],
+      ['neutral', 'Kurzfassung: Party. Freitag. Wir sehen uns.'],
+      ['happy', 'Knopf. Bitte sehr.'],
     ],
     choices: [['▶ Ab in die Gruppe!', GROUP_LINK || 'nolink'], ['Nochmal von vorn', 'title']],
   },
-  ja: { full: true, pages: [], choices: [['JA', GROUP_LINK || 'nolink']] },
   intro: {
     pages: [
       ['annoyed', 'Danke, Einhorn. Das reicht. Ab hier rede ich.'],
-      ['neutral', 'So. Da bist du ja endlich.'],
-      ['annoyed', 'Hat ja auch nur eine halbe Ewigkeit gedauert, bis du auf den Link getippt hast.'],
-      ['smug', 'Ich bin Henning. Beziehungsweise sein Kopf. Der mit Abstand wichtigste Teil.'],
-      ['neutral', 'Du darfst jetzt etwas sagen. Fass dich kurz.'],
+      ['happy', 'Willkommen! Schön, dass du da bist. Für dich. Für mich ist es immer schön, ich bin ja ständig bei mir.'],
+      ['smug', 'Ich bin Henning. Genauer gesagt sein Kopf. Den Rest habe ich weggelassen, der lenkt nur vom Wesentlichen ab.'],
+      ['neutral', 'Wobei, die Schultern waren auch exzellent. Breit, aber nicht aufdringlich. Man hat mir oft gesagt, dass'],
+      ['surprised', 'Oh. Du bist ja noch da.'],
+      ['neutral', 'Fantastisch. Dann sag doch auch mal was. Ich höre zu. Kurz.'],
     ],
     again: [
-      ['annoyed', 'Stopp. DU schon wieder?'],
-      ['annoyed', 'Wir hatten das doch gerade erst. Hast du nicht aufgepasst? Natürlich nicht.'],
-      ['neutral', 'Gut. Nochmal. Ganz. Langsam. Ich: Henning. Du: Gast.'],
-      ['smug', 'Jetzt du. Sag irgendwas.'],
+      ['surprised', 'Oh, du schon wieder!'],
+      ['smug', 'Verständlich. Von mir bekommt man schwer genug.'],
+      ['neutral', 'Ich fasse mich diesmal kurz. Das kann ich nämlich auch. Theoretisch.'],
+      ['neutral', 'Sag was.'],
     ],
     choices: [['Hallo Henning!', 'hi'], ['Warum schwebst du?', 'float'], ['Wer bist du nochmal?', 'who']],
   },
   hi: {
     pages: [
-      ['happy', 'Exzellent. Höflichkeit!'],
-      ['smug', 'Dass ich das bei dir noch erleben darf. Ich bin fast gerührt. Fast.'],
+      ['happy', 'Hallo! Exzellente Eröffnung. Klassisch, schnörkellos, wirkungsvoll.'],
+      ['smug', 'Ich hätte es natürlich eleganter formuliert. Aber ich habe auch jahrelange Übung im Großartigsein.'],
     ],
     again: [
-      ['happy', 'Ja. Hallo. Toll gemacht.'],
+      ['happy', 'Hallo. Wieder exzellent.'],
     ],
     next: 'nameAsk',
   },
   float: {
     pages: [
-      ['smug', 'Weil ich es kann.'],
-      ['neutral', 'Körper sind was für Leute, die es nötig haben. Ich bestehe aus purem Verstand. Und Bart.'],
-      ['annoyed', 'Nächste Frage. Nein, halt, doch nicht. Jetzt rede wieder ich.'],
+      ['smug', 'Eine herausragende Frage. Ich schwebe, weil Gehen unter meiner Würde ist. Und weil mir die Beine fehlen.'],
+      ['neutral', 'Schweben ist ohnehin die ehrlichste Form der Fortbewegung. Schon die alten Griechen, oder waren es die Römer, jedenfalls'],
+      ['annoyed', 'Halt. Ich schweife ab. Das passiert mir, wenn ich mir zuhöre. Ich bin einfach zu interessant.'],
     ],
     again: [
-      ['annoyed', 'Ich. Kann. Das. Weiter.'],
+      ['smug', 'Würde. Und keine Beine. Wie gehabt.'],
     ],
     next: 'nameAsk',
   },
   who: {
     pages: [
-      ['surprised', 'Wer ich …  WER ICH BIN?!'],
-      ['annoyed', 'Du hast von mir eine Einladung mit einem Einhorn bekommen. Konzentrier dich bitte.'],
-      ['neutral', 'Ich erkläre es dir später nochmal. Langsam. Mit Bildern.'],
+      ['surprised', 'Wer ich bin?!'],
+      ['smug', 'Henning. Gastgeber, Geburtstagskind, Gesamtkunstwerk. Die Reihenfolge ist verhandelbar, der Inhalt nicht.'],
+      ['neutral', 'Ich verstehe die Frage aber. Bei so viel Ausstrahlung verliert man leicht den Überblick.'],
     ],
     again: [
-      ['surprised', 'Im Ernst?!'],
-      ['annoyed', 'Henning. HEN-NING. Schreib es dir auf die Hand.'],
+      ['smug', 'Henning. Immer noch. Zum Glück.'],
     ],
     next: 'nameAsk',
   },
-
   nameAsk: {
     pages: [
-      ['neutral', 'Bevor wir fortfahren: Wie heißt du eigentlich?'],
-      ['smug', 'Tipp deinen Namen ein. Ich notiere mir das. Vielleicht.'],
+      ['neutral', 'Aber genug von mir. Reden wir über dich. Wie heißt du eigentlich?'],
+      ['smug', 'Tipp deinen Namen ein. Ich merke ihn mir. Ich habe ein fantastisches Gedächtnis für, äh, Dinge.'],
     ],
     again: [
-      ['neutral', 'Name. Tippen. Los.'],
+      ['neutral', 'Dein Name. Du kennst das Spiel.'],
     ],
     input: 'nameCut',
   },
   nameCut: {
     pages: [
-      ['annoyed', '„{typed}…“  STOPP!'],
-      ['annoyed', 'Das dauert mir entschieden zu lange. Ich habe nicht den ganzen Tag Zeit. Du übrigens auch nicht.'],
-      ['neutral', 'Ich mach das selbst. Wie immer. Ich nenne dich ab jetzt:'],
+      ['annoyed', '„{typed}…“  Stopp, stopp, stopp.'],
+      ['neutral', 'Das dauert. Nimm es nicht persönlich, aber in der Zeit hätte ich drei Anekdoten erzählen können. Gute.'],
+      ['smug', 'Ich übernehme das. Namen vergeben ist eine meiner vielen unterschätzten Begabungen. Du heißt ab sofort:'],
       ['happy', '{name}!'],
-      ['smug', 'Fantastisch. Passt herausragend zu dir. Viel besser als das, was deine Eltern sich ausgedacht haben.'],
+      ['smug', 'Herausragend. Der steht dir. Den hätte man dir gleich bei der Geburt geben sollen.'],
     ],
     again: [
-      ['annoyed', '„{typed}…“  Zu langsam.'],
-      ['neutral', 'Du heißt:'],
+      ['annoyed', '„{typed}…“  Dauert.'],
+      ['neutral', 'Ich mach das. Du heißt:'],
       ['happy', '{name}!'],
-      ['smug', 'Fertig. Nicht diskutieren.'],
+      ['smug', 'Wieder ein Volltreffer.'],
     ],
     choices: [['Das ist nicht mein Name!', 'nameNo'], ['Gefällt mir.', 'nameYes'], ['Darf ich einen anderen?', 'nameNew']],
   },
   nameNo: {
-    pages: [['smug', 'Jetzt schon. Gern geschehen, {name}.']],
+    pages: [
+      ['smug', 'Noch nicht. Aber ein guter Name ist wie ich: Man gewöhnt sich daran und will dann nichts anderes mehr.'],
+    ],
     again: [
-      ['smug', 'Doch.'],
+      ['smug', 'Doch, doch.'],
     ],
     next: 'party',
   },
   nameYes: {
-    pages: [['happy', 'Natürlich gefällt er dir. Er ist ja von mir.']],
+    pages: [
+      ['happy', 'Natürlich gefällt er dir. Er ist von mir. Wir haben beide Geschmack, das verbindet.'],
+    ],
     again: [
-      ['happy', 'Weiß ich.'],
+      ['happy', 'Mir auch.'],
     ],
     next: 'party',
   },
   nameNew: {
     reroll: true,
     pages: [
-      ['annoyed', 'Undankbar. Aber gut, ich bin heute großzügig:'],
+      ['neutral', 'Einen anderen? Mutig. Aber gut, ich bin für meine Großzügigkeit bekannt. Vor allem bei mir.'],
       ['happy', '{name}!'],
-      ['neutral', 'Das ist mein letztes Angebot. Eigentlich war schon das erste zu gut für dich.'],
+      ['smug', 'Noch besser. Ich übertreffe mich mal wieder selbst. Anstrengend, aber irgendwer muss es ja tun.'],
     ],
     again: [
-      ['annoyed', 'Meinetwegen.'],
+      ['neutral', 'Na gut.'],
       ['happy', '{name}!'],
-      ['neutral', 'Ende der Namensvergabe.'],
+      ['smug', 'Ich bin zu gut zu dir.'],
     ],
     next: 'party',
   },
-
   party: {
     pages: [
       ['neutral', 'Zur Sache, {name}.'],
-      ['happy', 'Ich werde 33! Ein exzellentes Alter. Ich sehe herausragend aus und bin weiser denn je.'],
-      ['smug', 'Das muss gefeiert werden. Von dir. Mit mir. Hauptsächlich mich.'],
-      ['neutral', 'Freitag, 18.12., ab 18 Uhr. Beim Rauhen Hause 45, Hamburg.'],
-      ['annoyed', 'Stand alles auf der Einladung. Aber du hast ja vermutlich nur das Einhorn angeguckt.'],
-      ['neutral', 'Fragen? Aber bitte nur gute.'],
+      ['happy', 'Ich werde 33! Ein exzellentes Alter. Jung genug für Unsinn und alt genug, ihn gut zu begründen.'],
+      ['smug', 'Mit 33 hat man ja schon einiges erreicht. Ich hatte neulich zum Beispiel einen Gedanken, der war so brillant, dass'],
+      ['neutral', 'Moment. Wo war ich? Ich höre mir so gern zu, dass ich manchmal vergesse, dass noch jemand da ist.'],
+      ['happy', 'Ach ja, die Feier! Freitag, 18.12., ab 18 Uhr. Beim Rauhen Hause 45 in Hamburg.'],
+      ['neutral', 'Steht auch auf der Einladung. Aber aus meinem Mund klingt es einfach besser. Hast du Fragen?'],
     ],
     again: [
-      ['neutral', 'Aufgepasst, {name}.'],
-      ['happy', 'Ich: 33. Exzellent.'],
-      ['neutral', 'Freitag. 18.12. 18 Uhr. Beim Rauhen Hause 45. Hamburg.'],
-      ['annoyed', 'Oder soll ich es dir aufmalen?'],
+      ['neutral', 'Kurzfassung, {name}.'],
+      ['happy', 'Ich werde 33. Immer noch exzellent.'],
+      ['neutral', 'Freitag, 18.12., 18 Uhr. Beim Rauhen Hause 45, Hamburg.'],
+      ['smug', 'Ich könnte ausholen. Ich lasse es. Bewundere meine Disziplin.'],
     ],
     choices: [['Was gibt es zu trinken?', 'drink'], ['Muss ich was mitbringen?', 'bring'], ['33? So alt schon?', 'old']],
   },
   drink: {
     pages: [
-      ['happy', 'Endlich eine intelligente Frage! Ich bin überrascht. Positiv. Ausnahmsweise.'],
-      ['smug', 'Es wird feucht. Es wird fröhlich. In genau dieser Reihenfolge.'],
-      ['neutral', 'Du trinkst, was ich dir hinstelle, und du wirst es fantastisch finden. Das ist keine Bitte.'],
+      ['happy', 'Eine fantastische Frage. Du denkst mit, das gefällt mir.'],
+      ['smug', 'Es wird feucht und es wird fröhlich. Ich habe die Getränke persönlich ausgewählt, mein Geschmack ist legendär.'],
+      ['neutral', 'Ich könnte dir jede Flasche einzeln vorstellen. Herkunft, Charakter, Abgang. Aber dann stehen wir am 18.12. noch hier.'],
     ],
     again: [
-      ['smug', 'Getränke: ja. Viele. Auch für dich.'],
+      ['smug', 'Getränke: reichlich. Von mir ausgesucht. Also perfekt.'],
     ],
     next: 'ask',
   },
   bring: {
     pages: [
-      ['neutral', 'Gute Laune, Durst und ein Mindestmaß an Niveau.'],
-      ['smug', 'Bei Letzterem drücke ich bei dir ein Auge zu. Ich kenne dich ja.'],
-      ['neutral', 'Alles Weitere erfährst du in der Gruppe. Lesen kannst du ja. Hoffe ich.'],
+      ['neutral', 'Gute Laune und Durst. Mehr braucht es nicht, für den Glanz des Abends sorge ich schon selbst.'],
+      ['smug', 'Snacks sind willkommen. Ich lobe sie dann, als wären sie von mir. Eine höhere Auszeichnung vergebe ich nicht.'],
+      ['neutral', 'Alles Weitere steht in der Gruppe.'],
     ],
     again: [
-      ['neutral', 'Durst. Laune. Dich selbst. Mehr kannst du dir eh nicht merken.'],
+      ['neutral', 'Laune und Durst. Snacks, wenn du magst.'],
     ],
     next: 'ask',
   },
   old: {
     pages: [
-      ['surprised', 'Wie bitte?!'],
-      ['annoyed', 'Ich bin wie ein herausragender Wein. Du bist eher so … Traubensaft.'],
-      ['smug', 'Aber keine Sorge: Auch Traubensaft ist eingeladen.'],
+      ['surprised', 'Alt?!'],
+      ['smug', 'Ich bin nicht alt, ich bin ausgereift. Wie ein herausragender Wein. Oder ein sehr guter Käse.'],
+      ['neutral', 'Nur dass ich besser rieche. Meistens.'],
     ],
     again: [
-      ['annoyed', 'Ich: Wein. Du: Traubensaft. Hatten wir schon.'],
+      ['smug', 'Ausgereift. Nicht alt. Wein, Käse, du erinnerst dich.'],
     ],
     next: 'ask',
   },
-
   ask: {
     pages: [
-      ['neutral', 'Also, {name}. Jetzt kommt der Teil, in dem du etwas entscheiden darfst. Genieß es.'],
+      ['neutral', 'So, {name}. Ich habe jetzt lange genug, nein, genau richtig lange geredet. Jetzt bist du dran.'],
       ['happy', 'Bist du dabei?'],
     ],
     again: [
-      ['neutral', 'Und jetzt das schwere Wort mit zwei Buchstaben, {name}.'],
+      ['neutral', 'Und jetzt die eine Frage, {name}.'],
       ['happy', 'Bist du dabei?'],
     ],
     choices: [['Ja, klar!', 'yes'], ['Vielleicht …', 'no1'], ['Nein.', 'no1']],
   },
   no1: {
     pages: [
-      ['annoyed', 'Falsche Antwort.'],
-      ['annoyed', 'Das war keine echte Frage, {name}. Das war eine Formalität.'],
-      ['neutral', 'Du bekommst eine zweite Chance, weil ich so ein herausragender Mensch bin. Bist du dabei?'],
+      ['surprised', 'Oh. Das habe ich jetzt akustisch nicht verstanden. Inhaltlich auch nicht.'],
+      ['smug', 'Sieh mal: Ein Abend mit mir ist wie ein Abend mit mir. Es gibt keinen Vergleich. Ich habe gesucht.'],
+      ['happy', 'Ich frage einfach nochmal, ganz unvoreingenommen: Bist du dabei?'],
     ],
     again: [
-      ['annoyed', 'Nein. Also: doch.'],
-      ['neutral', 'Nochmal. Bist du dabei?'],
+      ['surprised', 'Wieder nein? Du hast Humor.'],
+      ['happy', 'Nochmal: Bist du dabei?'],
     ],
     choices: [['Ja.', 'yesForced'], ['Ich hab da schon was vor.', 'no2'], ['Nein.', 'no2']],
   },
   no2: {
     pages: [
-      ['annoyed', 'Was auch immer du vorhast: Es ist schlechter als meine Party.'],
-      ['smug', 'Das ist keine Meinung. Das ist Statistik.'],
-      ['annoyed', 'Sag es ab. Ich warte. … … … So. Erledigt. Bist du dabei?'],
+      ['neutral', 'Ich respektiere deine Pläne. Wirklich. Ich habe selbst oft welche.'],
+      ['smug', 'Aber stell dir vor, du musst später sagen: „Ich war nicht bei Hennings 33.“ Das will doch niemand.'],
+      ['happy', 'Ich würde es mir an deiner Stelle nicht verzeihen. Und ich verzeihe mir sonst alles. Also: Bist du dabei?'],
     ],
     again: [
-      ['annoyed', 'Du übst das, oder?'],
-      ['smug', 'J. A. Ja. Sprich mir nach. Bist du dabei?'],
+      ['smug', 'Deine Pläne in Ehren. Meine sind besser.'],
+      ['happy', 'Bist du dabei?'],
     ],
     choices: [['Ja.', 'yesForced'], ['Nein!', 'no3']],
   },
   no3: {
     pages: [
-      ['surprised', 'Unfassbar. Diese Sturheit!'],
-      ['annoyed', 'Fast schon beeindruckend, wenn sie nicht so anstrengend wäre.'],
-      ['smug', 'Ich habe dir das Antworten jetzt etwas vereinfacht. Bitte sehr. Bist du dabei?'],
+      ['surprised', 'Diese Standhaftigkeit! Herausragend. Das habe ich sonst nur bei mir selbst gesehen.'],
+      ['smug', 'Weißt du was? Ich nehme dir die Entscheidung ab. Das mache ich gern, ich entscheide exzellent.'],
+      ['happy', 'Bitte sehr. Bist du dabei?'],
     ],
     again: [
-      ['annoyed', 'Herausragend stur.'],
-      ['smug', 'Ein Knopf. Den schaffst sogar du.'],
+      ['smug', 'Ich entscheide wieder für dich. Gern geschehen.'],
     ],
     choices: [['Ja.', 'yesForced']],
   },
   yes: {
     pages: [
-      ['happy', 'Exzellent! Eine herausragende Entscheidung.'],
-      ['smug', 'Vermutlich deine beste dieses Jahr. Gut, die Konkurrenz war nicht groß.'],
+      ['happy', 'Exzellent! Eine herausragende Entscheidung. Ich hätte genauso entschieden, und ich irre mich nie.'],
+      ['smug', 'Einmal dachte ich, ich hätte mich geirrt. Aber das war ein Irrtum.'],
     ],
     again: [
-      ['happy', 'Exzellent. Geht doch.'],
+      ['happy', 'Exzellent. Wie beim ersten Mal.'],
     ],
     next: 'unicorn',
   },
   yesForced: {
     pages: [
-      ['happy', 'Na also. Fantastisch!'],
-      ['smug', 'Ich wusste, dass du völlig freiwillig zusagst. Ich habe ein Gespür für Menschen.'],
+      ['happy', 'Fantastisch! Ich wusste es. Ich habe ein untrügliches Gespür für Menschen.'],
+      ['smug', 'Und für Wein. Und für Timing. Eigentlich für alles, aber ich will nicht angeben.'],
     ],
     again: [
-      ['happy', 'Fantastisch. Hat ja nur ewig gedauert.'],
+      ['happy', 'Fantastisch. Ich wusste es. Wieder.'],
     ],
     next: 'unicorn',
   },
-
   unicorn: {
     scene: 'bier',
     pages: [
       ['neutral', 'Das Einhorn kennst du ja schon. Es ist inzwischen beim dritten Bier.'],
-      ['smug', 'Es trinkt mit. Es trinkt mehr als du. Versuch gar nicht erst mitzuhalten, {name}.'],
-      ['annoyed', 'Und starr es nicht so an. Es ist exzellent, aber eitel. Wie alle großen Persönlichkeiten.'],
+      ['smug', 'Ein exzellentes Tier. Trinkfest, elegant, etwas eitel. Wir verstehen uns blendend, ich weiß gar nicht, warum.'],
+      ['surprised', 'Es lässt mich übrigens nie ausreden. Unfassbar. So etwas würde mir nie einfallen.'],
     ],
     again: [
-      ['neutral', 'Einhorn. Bier. Immer noch.'],
-      ['annoyed', 'Nicht anstarren.'],
+      ['neutral', 'Das Einhorn. Inzwischen beim fünften Bier.'],
+      ['smug', 'Respekt.'],
     ],
     next: 'end',
   },
   end: {
     pages: [
-      ['neutral', 'So. Unten ist gleich ein Knopf. Der führt in die WhatsApp-Gruppe mit allen weiteren Infos.'],
-      ['happy', 'Drück ihn. Das schaffst du. Ich glaube an dich, {name}.'],
-      ['smug', 'Ein bisschen.'],
+      ['neutral', 'So, {name}. Gleich erscheint unten ein Knopf. Der führt in die WhatsApp-Gruppe mit allen weiteren Infos.'],
+      ['happy', 'Ich freue mich auf dich. Wirklich. Fast so sehr wie auf mich.'],
+      ['smug', 'Und jetzt entschuldige mich, ich habe mir noch einiges zu erzählen.'],
     ],
     again: [
-      ['neutral', 'Knopf. Unten. Drücken.'],
-      ['smug', 'Das ist die Stelle, an der du letztes Mal gescheitert bist.'],
+      ['neutral', 'Unten kommt der Knopf zur Gruppe.'],
+      ['smug', 'Du weißt ja, wo ich bin, falls du mich nochmal hören willst.'],
     ],
     choices: [['▶ Ab in die Gruppe!', GROUP_LINK || 'nolink'], ['Nochmal von vorn', 'title']],
   },
   nolink: {
     pages: [
-      ['annoyed', 'Die Gruppe gibt es noch nicht. Der Henning mit Körper war zu faul. Typisch.'],
-      ['neutral', 'Er meldet sich bei dir. Bleib einfach so lange hier stehen und bewundere mich.'],
+      ['annoyed', 'Die Gruppe gibt es noch nicht. Der Henning mit Körper war zu beschäftigt. Vermutlich mit mir.'],
+      ['neutral', 'Er meldet sich bei dir. Bleib einfach so lange hier und leiste mir Gesellschaft.'],
     ],
     again: [
-      ['annoyed', 'Die Gruppe gibt es immer noch nicht. Frag nicht mich.'],
+      ['annoyed', 'Die Gruppe gibt es immer noch nicht. Ich bin unschuldig.'],
     ],
     next: 'end',
   },
