@@ -110,12 +110,13 @@ const NAMES = {   // bei "Darf ich einen anderen?" wechselt das Geschlecht
       'Gräfin Gerstensaft', 'Uschi die Unersättliche'],
 };
 
-// Jeder Knoten: pages = [[Gesicht, Text], …]  (ein Text = eine Textbox-Seite, max. ~90 Zeichen)
+// Jeder Knoten: pages = [[Gesicht, Text], …]  (ein Text = eine Textbox-Seite, max. ~115 Zeichen)
 // Gesichter: neutral, happy, smug, annoyed, surprised.   {name} = Zufallsname, {typed} = getippte Buchstaben
 // scene: 'uni' = das Einhorn spricht allein, 'bier' = Einhorn trinkt, Kopf klein daneben
 // again = Ersatz-Seiten beim 2. Durchlauf (kürzer, flapsiger), third = beim 3. Durchlauf.
 // Beim 3. Mal geht es nach dem Einhorn direkt zum Knoten 'third', ab dem 4. Mal gibt es nur noch den Knoten 'ja'.
 // Danach entweder choices = [[Antwort, Zielknoten], …]  oder  next = Zielknoten  oder  input = Zielknoten (Namens-Eingabe)
+// once: true = Antworten, deren Zielknoten in diesem Durchlauf schon besucht wurde, werden ausgeblendet (Fragerunde)
 const STORY = {
   title: { scene: 'uni', title: true, pages: [], choices: [['▶ START', 'hello']] },
   ja: { full: true, pages: [], choices: [['JA', GROUP_LINK || 'nolink']] },
@@ -123,12 +124,12 @@ const STORY = {
   hello: {
     scene: 'uni',
     pages: [
-      ['neutral', 'Hallihallo! Willkommen bei A MAGICAL DAY!'],
-      ['neutral', 'Ich bin das Einhorn von der Einladung. Wie schön, dass du da bist! Ich hab dich jetzt schon lieb.'],
-      ['neutral', 'Ich erzähle dir jetzt alles über die zauberhafte Party von unserem lieben Henning. Also, es war einmal ein'],
+      ['neutral', 'Hallihallo! Da bist du ja! Willkommen bei A MAGICAL DAY!'],
+      ['neutral', 'Ich bin das Einhorn von der Einladung. Ich darf dir heute alles über Hennings Geburtstag erzählen!'],
+      ['neutral', 'Ich habe extra geübt. Also: Es war einmal ein kleines Einhorn, das hatte einen großen Tr'],
     ],
     again: [
-      ['neutral', 'Hallihallo! Willkommen zurück bei A MAGI'],
+      ['neutral', 'Hallihallo! Du schon wieder! Diesmal komme ich bestimmt bis zum En'],
     ],
     third: [
       ['neutral', 'Halli'],
@@ -137,265 +138,305 @@ const STORY = {
   },
   third: {
     pages: [
-      ['surprised', 'Zum DRITTEN Mal?'],
-      ['smug', 'Ich bin geschmeichelt. Aber selbst ich habe mir jetzt alles gesagt.'],
-      ['neutral', 'Kurzfassung: Party. Freitag. Wir sehen uns.'],
-      ['happy', 'Knopf. Bitte sehr.'],
+      ['surprised', 'Zum dritten Mal? Ich bin gut. Aber so gut?'],
+      ['smug', 'Ich fühle mich geschmeichelt. Neues habe ich trotzdem nicht, selbst ich bin irgendwann auserzählt.'],
+      ['neutral', 'Kurzfassung: Freitag, 18.12., 18 Uhr, Beim Rauhen Hause 45. Ich, du, Getränke.'],
+      ['happy', 'Und hier ist der Knopf. Du weißt, was zu tun ist.'],
     ],
     choices: [['▶ Ab in die Gruppe!', GROUP_LINK || 'nolink'], ['Nochmal von vorn', 'title']],
   },
   intro: {
     pages: [
-      ['annoyed', 'Danke, Einhorn. Das reicht. Ab hier rede ich.'],
-      ['happy', 'Willkommen! Schön, dass du es hergeschafft hast. Der Link war ja auch gut ausgeschildert.'],
-      ['smug', 'Ich bin Henning. Genauer gesagt sein Kopf. Der Teil, wegen dem die Leute kommen.'],
-      ['neutral', 'Du darfst jetzt auch mal was sagen. Keine Sorge, die Messlatte liegt angenehm niedrig.'],
+      ['annoyed', 'Danke, Einhorn. Das genügt. Den Rest erzähle ich lieber selbst.'],
+      ['neutral', 'Es meint es gut. Aber in seiner Geschichte komme ich erst in Kapitel drei vor. Das geht nicht.'],
+      ['smug', 'Ich bin Henning. Genauer gesagt: sein Kopf. Also das Wesentliche.'],
+      ['happy', 'Und du bist mein Gast. Glückwunsch! Du darfst jetzt auch etwas sagen.'],
     ],
     again: [
-      ['surprised', 'Oh, du schon wieder!'],
-      ['smug', 'Verständlich. Von mir bekommt man schwer genug.'],
-      ['neutral', 'Diesmal die Kurzfassung. Du kennst sie ja eigentlich schon.'],
-      ['neutral', 'Sag was.'],
+      ['annoyed', 'Nein, Einhorn. Auch beim zweiten Mal nicht.'],
+      ['surprised', 'Und du bist wieder da! Etwas vergessen, oder vermisst du mich schon?'],
+      ['smug', 'Beides verständlich. Ich fasse mich diesmal kürzer. Sag was.'],
     ],
-    choices: [['Hallo Henning!', 'hi'], ['Warum schwebst du?', 'float'], ['Wer bist du nochmal?', 'who']],
+    choices: [['Hallo Henning!', 'hi'], ['Warum bist du nur ein Kopf?', 'kopf'], ['Wo ist das Einhorn hin?', 'horn']],
   },
   hi: {
     pages: [
-      ['happy', 'Hallo! Exzellente Eröffnung. Schlicht, aber fehlerfrei.'],
-      ['smug', 'Man muss ja nicht gleich im ersten Satz glänzen. Dafür bin ich schließlich da.'],
+      ['happy', 'Hallo! Zwei Wörter, beide richtig. Ein starker Einstieg.'],
+      ['smug', 'Steigern kannst du dich später. Ich habe auch nicht als Meisterwerk angefangen.'],
+      ['neutral', 'Doch. Eigentlich schon. Aber es klang bescheidener.'],
     ],
     again: [
-      ['happy', 'Hallo. Wieder exzellent.'],
+      ['happy', 'Hallo! Kurz und richtig. So kann es weitergehen.'],
     ],
     next: 'nameAsk',
   },
-  float: {
+  kopf: {
     pages: [
-      ['smug', 'Weil Gehen unter meiner Würde ist. Und weil mir die Beine fehlen.'],
-      ['neutral', 'Dir fällt so etwas natürlich sofort auf. Ein Blick fürs Offensichtliche, den hat auch nicht jeder.'],
+      ['surprised', '„Nur“?'],
+      ['smug', 'Ich bin der Teil, der denkt, redet und gut aussieht. Der Rest von mir trägt bloß Hosen.'],
+      ['neutral', 'Der steht gerade im Getränkemarkt. Einer muss ja schleppen.'],
     ],
     again: [
-      ['smug', 'Würde. Und keine Beine. Wie gehabt.'],
+      ['smug', 'Weil der Kopf reicht. Der Rest trägt bloß Hosen.'],
     ],
     next: 'nameAsk',
   },
-  who: {
+  horn: {
     pages: [
-      ['surprised', 'Wer ich bin?!'],
-      ['smug', 'Henning. Gastgeber, Geburtstagskind, Gesamtkunstwerk.'],
-      ['neutral', 'Aber frag ruhig. Gesichter sind schwierig, vor allem, wenn sonst nichts dranhängt.'],
+      ['annoyed', 'Du stehst vor mir und fragst nach dem Einhorn. Das merke ich mir.'],
+      ['neutral', 'Keine Sorge, es ist versorgt. Ich habe es an die Bar geschickt, da unterbricht es niemanden.'],
+      ['smug', 'Du siehst es später wieder. Bis dahin hast du mich. Ein guter Tausch.'],
     ],
     again: [
-      ['smug', 'Henning. Immer noch. Zum Glück.'],
+      ['neutral', 'Wieder an der Bar. Du hast es doch vorhin dort gesehen.'],
     ],
     next: 'nameAsk',
   },
   nameAsk: {
     pages: [
-      ['neutral', 'Genug von mir. Vorerst. Wie heißt du eigentlich?'],
-      ['smug', 'Tipp deinen Namen ein. Ich merke ihn mir. Wahrscheinlich.'],
+      ['neutral', 'Genug von mir. Ein seltener Satz, also genieß ihn.'],
+      ['neutral', 'Den Link haben viele bekommen. Mit wem rede ich hier eigentlich?'],
+      ['smug', 'Tipp deinen Namen ein. Ganz in Ruhe. Ich habe Zeit.'],
     ],
     again: [
-      ['neutral', 'Dein Name. Du kennst das Spiel.'],
+      ['neutral', 'Dein Name, bitte. Tipp ruhig. Diesmal lasse ich dich ausreden.'],
     ],
     input: 'nameCut',
   },
   nameCut: {
     pages: [
-      ['annoyed', '„{typed}…“  Stopp, stopp, stopp.'],
-      ['neutral', 'Bei dem Tempo feiern wir meinen 34. Nimm es nicht persönlich, ich mache das eben selbst.'],
-      ['smug', 'Du heißt ab sofort:'],
-      ['happy', '{name}!'],
-      ['smug', 'Herausragend. Passt besser zu dir als das, was du da gerade tippen wolltest.'],
+      ['annoyed', '„{typed}…“ Halt. Ich habe mich verschätzt. So viel Zeit habe ich doch nicht.'],
+      ['neutral', 'Zwei Buchstaben, und ich bin spürbar gealtert. Passt zum Anlass, muss aber nicht sein.'],
+      ['smug', 'Ich suche dir selbst einen Namen aus. Dafür habe ich ein Händchen. Bildlich gesprochen.'],
+      ['happy', 'Du bist ab jetzt: {name}!'],
+      ['smug', 'Sitzt wie angegossen. Na, was sagst du?'],
     ],
     again: [
-      ['annoyed', '„{typed}…“  Dauert.'],
-      ['neutral', 'Ich mach das. Du heißt:'],
+      ['annoyed', '„{typed}…“ Nein. Doch nicht.'],
+      ['neutral', 'Ich hatte es wirklich vor. Aber du tippst wie beim ersten Mal. Du heißt heute:'],
       ['happy', '{name}!'],
-      ['smug', 'Wieder ein Volltreffer.'],
+      ['smug', 'Sitzt. Ich bin einfach gut darin. Na?'],
     ],
     choices: [['Das ist nicht mein Name!', 'nameNo'], ['Gefällt mir.', 'nameYes'], ['Darf ich einen anderen?', 'nameNew']],
   },
   nameNo: {
     pages: [
-      ['smug', 'Jetzt schon. Du gewöhnst dich daran. An mich hast du dich ja auch gewöhnt.'],
+      ['smug', 'Noch nicht. Aber ich habe ihn schon laut gesagt, und ich nehme nie etwas zurück.'],
+      ['neutral', 'Den alten darfst du behalten. Für zu Hause.'],
     ],
     again: [
-      ['smug', 'Doch, doch.'],
+      ['smug', 'Doch. Seit eben.'],
     ],
     next: 'party',
   },
   nameYes: {
     pages: [
-      ['happy', 'Natürlich gefällt er dir. Er ist von mir. Du hast Geschmack, zumindest geliehenen.'],
+      ['happy', 'Natürlich gefällt er dir. Er ist von mir.'],
+      ['smug', 'Guter Geschmack. Zwar meiner, aber du hast ihn sofort erkannt.'],
     ],
     again: [
-      ['happy', 'Mir auch.'],
+      ['happy', 'Ich weiß. Mir auch.'],
     ],
     next: 'party',
   },
   nameNew: {
     reroll: true,
     pages: [
-      ['neutral', 'Wählerisch auch noch. Na gut, ich bin heute großzügig.'],
-      ['happy', '{name}!'],
-      ['smug', 'Mein letztes Angebot. Besser wird es nicht, ich bin ja kein Zauberer. Obwohl.'],
+      ['neutral', 'Wählerisch. Na gut, einmal tausche ich um. Weil du es bist.'],
+      ['happy', 'Dann eben: {name}!'],
+      ['smug', 'Umtausch ausgeschlossen. Den trägst du jetzt mit Würde.'],
     ],
     again: [
-      ['neutral', 'Na gut.'],
+      ['neutral', 'Na gut. Umtausch.'],
       ['happy', '{name}!'],
-      ['smug', 'Ich bin zu gut zu dir.'],
+      ['smug', 'Das war der letzte. Für heute.'],
     ],
     next: 'party',
   },
   party: {
     pages: [
-      ['neutral', 'Zur Sache, {name}.'],
-      ['happy', 'Ich werde 33! Ein exzellentes Alter. Ich sehe fantastisch aus, danke, dass es dir aufgefallen ist.'],
+      ['neutral', 'So, {name}. Jetzt zum eigentlichen Thema. Also zu mir.'],
+      ['happy', 'Ich werde 33! Das wird gefeiert, und du bist eingeladen. Nicht jeder kann das von sich sagen.'],
       ['neutral', 'Freitag, 18.12., ab 18 Uhr. Beim Rauhen Hause 45 in Hamburg.'],
-      ['smug', 'Stand auch auf der Einladung. Aber ich ahne, dass du dort hauptsächlich das Einhorn angeschaut hast.'],
-      ['neutral', 'Fragen? Trau dich ruhig.'],
+      ['smug', 'Steht auch auf der Einladung. Aber neben einem Einhorn liest ja niemand das Kleingedruckte.'],
+      ['neutral', 'Fragen? Nur zu. Ich beantworte fast alles.'],
     ],
     again: [
-      ['neutral', 'Kurzfassung, {name}.'],
-      ['happy', 'Ich werde 33. Immer noch exzellent.'],
-      ['neutral', 'Freitag, 18.12., 18 Uhr. Beim Rauhen Hause 45, Hamburg.'],
-      ['smug', 'Diesmal mitgeschrieben?'],
+      ['neutral', 'Noch mal zum Mitschreiben, {name}.'],
+      ['happy', 'Ich werde 33. Daran hat sich nichts geändert.'],
+      ['neutral', 'Freitag, 18.12., ab 18 Uhr. Beim Rauhen Hause 45 in Hamburg.'],
+      ['smug', 'Fragen? Du kennst sie ja schon, aber bitte.'],
     ],
     choices: [['Was gibt es zu trinken?', 'drink'], ['Muss ich was mitbringen?', 'bring'], ['33? So alt schon?', 'old']],
   },
   drink: {
+    once: true,
     pages: [
-      ['happy', 'Eine fantastische Frage. Man merkt sofort, wo deine Prioritäten liegen.'],
-      ['smug', 'Es wird feucht und es wird fröhlich. Die Getränke habe ich ausgesucht, also sind sie exzellent.'],
-      ['neutral', 'Du musst nur noch mithalten. Ich glaube an dich. Halbwegs.'],
+      ['happy', 'Endlich die wichtigen Themen!'],
+      ['smug', 'Es gibt reichlich. Ich habe großzügig geplant und dann noch mal draufgelegt. Ich kenne ja meine Gäste.'],
+      ['neutral', 'Verdursten wird niemand. Sonst noch eine Frage?'],
     ],
     again: [
-      ['smug', 'Getränke: reichlich. Von mir ausgesucht. Also perfekt.'],
+      ['smug', 'Reichlich. Trotz Einhorn. Noch etwas?'],
     ],
-    next: 'ask',
+    choices: [['Muss ich was mitbringen?', 'bring'], ['33? So alt schon?', 'old'], ['Nein, alles klar.', 'ask']],
   },
   bring: {
+    once: true,
     pages: [
-      ['neutral', 'Gute Laune und Durst. Für den Glanz des Abends sorge ich.'],
-      ['smug', 'Snacks sind willkommen. Ich bin gespannt, was du unter „selbstgemacht“ verstehst.'],
-      ['neutral', 'Alles Weitere steht in der Gruppe.'],
+      ['neutral', 'Durst und gute Laune. Mehr musst du nicht tragen.'],
+      ['smug', 'Für Glanz und Unterhaltung sorge ich. Das mache ich seit fast 33 Jahren, ich bin eingespielt.'],
+      ['neutral', 'Falls doch noch etwas fehlt, steht es in der WhatsApp-Gruppe. Zu der kommen wir gleich.'],
+      ['neutral', 'Noch eine Frage?'],
     ],
     again: [
-      ['neutral', 'Laune und Durst. Snacks, wenn du magst.'],
+      ['neutral', 'Durst und gute Laune. Das war es schon. Noch etwas?'],
     ],
-    next: 'ask',
+    choices: [['Was gibt es zu trinken?', 'drink'], ['33? So alt schon?', 'old'], ['Nein, alles klar.', 'ask']],
   },
   old: {
+    once: true,
     pages: [
       ['surprised', 'Alt?!'],
-      ['smug', 'Ich bin nicht alt, ich bin ausgereift. Wie ein herausragender Wein.'],
-      ['neutral', 'Du hältst dich aber auch tapfer. Für eine Schorle.'],
+      ['smug', 'Ich werde 33 und habe keine einzige Falte. Gut, ich bestehe auch nur aus ein paar Pixeln.'],
+      ['neutral', 'Außerdem altere ich nicht, ich reife. Frag den Wein, der kennt den Unterschied.'],
+      ['annoyed', 'Weitere Fragen? Gern auch freundlichere.'],
     ],
     again: [
-      ['smug', 'Ausgereift. Nicht alt. Wein, Käse, du erinnerst dich.'],
+      ['smug', 'Reif, nicht alt. Und weiterhin faltenfrei. Noch etwas?'],
     ],
-    next: 'ask',
+    choices: [['Was gibt es zu trinken?', 'drink'], ['Muss ich was mitbringen?', 'bring'], ['Nein, alles klar.', 'ask']],
   },
   ask: {
     pages: [
-      ['neutral', 'So, {name}. Jetzt kommt dein großer Moment. Genau ein Wort. Das schaffst du.'],
-      ['happy', 'Bist du dabei?'],
+      ['neutral', 'Gut. Dann bin jetzt ich dran. Ich habe nur eine einzige Frage.'],
+      ['happy', 'Bist du dabei, {name}?'],
     ],
     again: [
-      ['neutral', 'Und jetzt die eine Frage, {name}.'],
+      ['neutral', 'Dann wieder meine eine Frage.'],
+      ['happy', 'Bist du dabei, {name}?'],
+    ],
+    choices: [['Ja, klar!', 'yes'], ['Vielleicht …', 'maybe'], ['Nein.', 'no1']],
+  },
+  maybe: {
+    pages: [
+      ['annoyed', '„Vielleicht.“ Das ist keine Antwort, das ist ein Wetterbericht.'],
+      ['neutral', 'Ich helfe dir. Es gibt da ein kurzes Wort mit J. Es tut überhaupt nicht weh.'],
+      ['happy', 'Also noch mal: Bist du dabei?'],
+    ],
+    again: [
+      ['annoyed', 'Vielleicht? Im zweiten Durchgang? Du kennst die Antwort doch längst.'],
       ['happy', 'Bist du dabei?'],
     ],
-    choices: [['Ja, klar!', 'yes'], ['Vielleicht …', 'no1'], ['Nein.', 'no1']],
+    choices: [['Na gut. Ja.', 'yesForced'], ['Ich hab da schon was vor.', 'busy'], ['Nein.', 'no2']],
   },
   no1: {
     pages: [
-      ['surprised', 'Oh. Du hast dich vertippt. Passiert den Besten. Und dir eben auch.'],
-      ['happy', 'Ich frage einfach nochmal: Bist du dabei?'],
+      ['surprised', 'Nein?'],
+      ['smug', 'Mutig. Falsch, aber mutig.'],
+      ['neutral', 'Ich tue so, als hätte ich nichts gehört, und du versuchst es einfach noch mal.'],
+      ['happy', 'Bist du dabei?'],
     ],
     again: [
-      ['surprised', 'Wieder nein? Du hast Humor.'],
-      ['happy', 'Nochmal: Bist du dabei?'],
+      ['surprised', 'Nein? Im zweiten Durchgang?'],
+      ['smug', 'Du willst doch nur sehen, was ich dann sage. Bitte sehr: Bist du dabei?'],
     ],
-    choices: [['Ja.', 'yesForced'], ['Ich hab da schon was vor.', 'no2'], ['Nein.', 'no2']],
+    choices: [['Ja.', 'yesForced'], ['Ich hab da schon was vor.', 'busy'], ['Nein.', 'no2']],
+  },
+  busy: {
+    pages: [
+      ['neutral', 'Du hast schon etwas vor. Am 18.12. Ausgerechnet.'],
+      ['smug', 'Verschieb es. Dein Termin lässt sich nachholen. Mein 33. nicht.'],
+      ['happy', 'So. Kalender ist frei. Bist du dabei?'],
+    ],
+    again: [
+      ['smug', 'Dein Termin in Ehren. Meiner hat ein Einhorn.'],
+      ['happy', 'Bist du dabei?'],
+    ],
+    choices: [['Ja.', 'yesForced'], ['Nein!', 'no3']],
   },
   no2: {
     pages: [
-      ['neutral', 'Du hast schon etwas vor? Am selben Abend wie ich? Mutige Terminplanung.'],
-      ['smug', 'Sag es ab. Die verstehen das, die wären ja selbst lieber bei mir.'],
-      ['happy', 'Also: Bist du dabei?'],
+      ['annoyed', 'Wieder daneben. Dabei gibt es nur eine richtige Antwort, und die hat zwei Buchstaben.'],
+      ['smug', 'Ich kann warten. Diesmal habe ich wirklich Zeit.'],
+      ['happy', 'Bist du dabei?'],
     ],
     again: [
-      ['smug', 'Deine Pläne in Ehren. Meine sind besser.'],
+      ['annoyed', 'Immer noch daneben.'],
       ['happy', 'Bist du dabei?'],
     ],
     choices: [['Ja.', 'yesForced'], ['Nein!', 'no3']],
   },
   no3: {
     pages: [
-      ['surprised', 'Diese Sturheit! Herausragend. Fast so gut wie meine.'],
-      ['smug', 'Ich habe dir die Auswahl etwas erleichtert. Gern geschehen.'],
+      ['surprised', 'Diese Sturheit! Respekt. Das kenne ich sonst nur von mir.'],
+      ['smug', 'Ich mache es dir leichter und räume ein paar Antworten weg. Gern geschehen.'],
       ['happy', 'Bist du dabei?'],
     ],
     again: [
-      ['smug', 'Ich entscheide wieder für dich. Gern geschehen.'],
+      ['smug', 'Gut, dann räume ich auf. Ein Knopf muss reichen.'],
+      ['happy', 'Bist du dabei?'],
     ],
     choices: [['Ja.', 'yesForced']],
   },
   yes: {
     pages: [
-      ['happy', 'Exzellent! Eine herausragende Entscheidung.'],
-      ['smug', 'Vermutlich deine beste diese Woche. Und ich habe sogar ein bisschen geholfen.'],
+      ['happy', 'Exzellent! Sofort und ohne Zögern. Genau deshalb bist du eingeladen.'],
+      ['smug', 'Ich hätte dich sonst überredet. So bleibt uns beiden einiges erspart.'],
     ],
     again: [
-      ['happy', 'Exzellent. Wie beim ersten Mal.'],
+      ['happy', 'Exzellent. Zweimal zugesagt, das zählt doppelt.'],
     ],
     next: 'unicorn',
   },
   yesForced: {
     pages: [
-      ['happy', 'Fantastisch! Ich wusste, dass du ganz von allein darauf kommst.'],
-      ['smug', 'Na gut. Fast von allein.'],
+      ['happy', 'Fantastisch! Und ganz von allein darauf gekommen.'],
+      ['smug', 'Ich habe kaum nachgeholfen. Höchstens ein bisschen.'],
     ],
     again: [
-      ['happy', 'Fantastisch. Ich wusste es. Wieder.'],
+      ['happy', 'Fantastisch. Ich wusste, dass du nur spielst.'],
     ],
     next: 'unicorn',
   },
   unicorn: {
     scene: 'bier',
     pages: [
-      ['neutral', 'Das Einhorn kennst du ja schon. Es ist inzwischen beim dritten Bier.'],
-      ['smug', 'Es trinkt mehr als du. Nimm es sportlich, es hat ja auch vier Beine zum Stehen.'],
-      ['annoyed', 'Und es lässt mich nie ausreden. Unfassbar. So etwas würde mir nie einfallen.'],
+      ['surprised', 'Ach, sieh an. Das Einhorn ist auch wieder da.'],
+      ['neutral', 'Während wir zwei uns unterhalten haben, war es fleißig. Es ist inzwischen beim dritten Bier.'],
+      ['smug', 'Nimm das als Richtwert für den 18.12. Mithalten musst du nicht. Versuchen schon.'],
+      ['annoyed', 'Nein, Einhorn, du erzählst jetzt nichts. Ich habe dich vorhin auch ausreden lassen.'],
+      ['smug', 'Größtenteils.'],
     ],
     again: [
-      ['neutral', 'Das Einhorn. Inzwischen beim fünften Bier.'],
-      ['smug', 'Respekt.'],
+      ['neutral', 'Das Einhorn hat inzwischen weitergemacht. Fünftes Bier.'],
+      ['smug', 'Es steht noch. Ich bin beeindruckt, und das passiert mir selten.'],
     ],
     next: 'end',
   },
   end: {
     pages: [
-      ['neutral', 'So, {name}. Unten erscheint gleich ein Knopf. Der führt in die WhatsApp-Gruppe mit allen Infos.'],
-      ['happy', 'Drück ihn. Das schaffst du, ich habe ihn extra groß gemacht.'],
-      ['smug', 'Ich freue mich auf dich. Fast so sehr wie auf mich.'],
+      ['neutral', 'So, {name}. Fast geschafft. Gleich erscheint unten ein Knopf.'],
+      ['neutral', 'Der führt in die WhatsApp-Gruppe. Dort steht alles Weitere, und dort sind die anderen Gäste.'],
+      ['smug', 'Sei nett zu ihnen. Die heißen seit heute auch alle komisch.'],
+      ['happy', 'Ich freue mich auf dich. Wirklich. Erzähl es nicht weiter, ich habe einen Ruf.'],
+      ['smug', 'Da ist der Knopf. Drück ihn. Wir sehen uns am 18.!'],
     ],
     again: [
-      ['neutral', 'Unten kommt der Knopf zur Gruppe.'],
-      ['smug', 'Du weißt ja, wo ich bin, falls du mich nochmal hören willst.'],
+      ['neutral', 'Unten kommt wieder der Knopf zur Gruppe, {name}.'],
+      ['smug', 'Diesmal drückst du ihn aber. Ich bin gut, aber kein Abendprogramm.'],
     ],
     choices: [['▶ Ab in die Gruppe!', GROUP_LINK || 'nolink'], ['Nochmal von vorn', 'title']],
   },
   nolink: {
     pages: [
-      ['annoyed', 'Die Gruppe gibt es noch nicht. Der Henning mit Körper war zu beschäftigt. Vermutlich mit mir.'],
-      ['neutral', 'Er meldet sich bei dir. Bleib einfach so lange hier und leiste mir Gesellschaft.'],
+      ['annoyed', 'Hm. Der Knopf führt noch nirgendwohin. Die Gruppe gibt es noch nicht.'],
+      ['neutral', 'Darum kümmert sich der Henning mit Körper. Er meldet sich bei dir.'],
     ],
     again: [
       ['annoyed', 'Die Gruppe gibt es immer noch nicht. Ich bin unschuldig.'],
     ],
-    next: 'end',
+    choices: [['Nochmal von vorn', 'title']],
   },
 };
 
@@ -445,15 +486,17 @@ const pick = () => NAMES[sex][Math.random() * NAMES[sex].length | 0];
 let node, page, text, shown, timer, sex, name, typed = '';
 // Zahl der Durchlaeufe gilt nur bis zum Neuladen der Seite
 let runs = 0, level = 0;   // level = wie oft vor dem aktuellen Durchlauf schon gespielt wurde
+const seen = new Set();    // in diesem Durchlauf besuchte Knoten (fuer once)
 try { localStorage.removeItem('runs'); } catch {}   // Rest aus einer frueheren Version aufraeumen
 const pages = () => level >= 2 && node.third || level >= 1 && node.again || node.pages;
 
 function go(id) {
   if (/^https?:/.test(id)) { location.href = id; return; }
-  if (id === 'title') { level = runs; sex = Math.random() < .5 ? 'm' : 'f'; name = pick(); if (level >= 3) id = 'ja'; }
+  if (id === 'title') { seen.clear(); level = runs; sex = Math.random() < .5 ? 'm' : 'f'; name = pick(); if (level >= 3) id = 'ja'; }
   if (id === 'hello') runs++;
   if (id === 'intro' && level === 2) id = 'third';
   node = STORY[id];
+  seen.add(id);
   $('game').classList.toggle('full', !!node.full);
   if (node.reroll) { sex = sex === 'm' ? 'f' : 'm'; name = pick(); }
   $('scene').className = node.scene || '';
@@ -514,14 +557,13 @@ function button(label, onclick) {
 function showChoices() {
   if (node.input) {
     typed = '';
-    $('choices').className = 'grid';
-    $('said').textContent = 'NAME: _';
+    $('choices').className = 'grid';   // der letzte Satz bleibt stehen, bis der erste Buchstabe getippt ist
     for (const ch of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') button(ch, () => {
       typed += ch;
       $('said').textContent = 'NAME: ' + typed + '_';
       if (typed.length === 2) go(node.input);   // der Kopf verliert die Geduld
     });
-  } else for (const [label, target] of node.choices) button(label, () => go(target));
+  } else for (const [label, target] of node.choices) if (!node.once || !seen.has(target)) button(label, () => go(target));
 }
 
 $('box').onclick = $('scene').onclick = advance;
