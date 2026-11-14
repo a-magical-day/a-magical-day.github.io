@@ -147,24 +147,22 @@ const STORY = {
   intro: {
     pages: [
       ['annoyed', 'Danke, Einhorn. Das reicht. Ab hier rede ich.'],
-      ['happy', 'Willkommen! Schön, dass du da bist. Für dich. Für mich ist es immer schön, ich bin ja ständig bei mir.'],
-      ['smug', 'Ich bin Henning. Genauer gesagt sein Kopf. Den Rest habe ich weggelassen, der lenkt nur vom Wesentlichen ab.'],
-      ['neutral', 'Wobei, die Schultern waren auch exzellent. Breit, aber nicht aufdringlich. Man hat mir oft gesagt, dass'],
-      ['surprised', 'Oh. Du bist ja noch da.'],
-      ['neutral', 'Fantastisch. Dann sag doch auch mal was. Ich höre zu. Kurz.'],
+      ['happy', 'Willkommen! Schön, dass du es hergeschafft hast. Der Link war ja auch gut ausgeschildert.'],
+      ['smug', 'Ich bin Henning. Genauer gesagt sein Kopf. Der Teil, wegen dem die Leute kommen.'],
+      ['neutral', 'Du darfst jetzt auch mal was sagen. Keine Sorge, die Messlatte liegt angenehm niedrig.'],
     ],
     again: [
       ['surprised', 'Oh, du schon wieder!'],
       ['smug', 'Verständlich. Von mir bekommt man schwer genug.'],
-      ['neutral', 'Ich fasse mich diesmal kurz. Das kann ich nämlich auch. Theoretisch.'],
+      ['neutral', 'Diesmal die Kurzfassung. Du kennst sie ja eigentlich schon.'],
       ['neutral', 'Sag was.'],
     ],
     choices: [['Hallo Henning!', 'hi'], ['Warum schwebst du?', 'float'], ['Wer bist du nochmal?', 'who']],
   },
   hi: {
     pages: [
-      ['happy', 'Hallo! Exzellente Eröffnung. Klassisch, schnörkellos, wirkungsvoll.'],
-      ['smug', 'Ich hätte es natürlich eleganter formuliert. Aber ich habe auch jahrelange Übung im Großartigsein.'],
+      ['happy', 'Hallo! Exzellente Eröffnung. Schlicht, aber fehlerfrei.'],
+      ['smug', 'Man muss ja nicht gleich im ersten Satz glänzen. Dafür bin ich schließlich da.'],
     ],
     again: [
       ['happy', 'Hallo. Wieder exzellent.'],
@@ -173,9 +171,8 @@ const STORY = {
   },
   float: {
     pages: [
-      ['smug', 'Eine herausragende Frage. Ich schwebe, weil Gehen unter meiner Würde ist. Und weil mir die Beine fehlen.'],
-      ['neutral', 'Schweben ist ohnehin die ehrlichste Form der Fortbewegung. Schon die alten Griechen, oder waren es die Römer, jedenfalls'],
-      ['annoyed', 'Halt. Ich schweife ab. Das passiert mir, wenn ich mir zuhöre. Ich bin einfach zu interessant.'],
+      ['smug', 'Weil Gehen unter meiner Würde ist. Und weil mir die Beine fehlen.'],
+      ['neutral', 'Dir fällt so etwas natürlich sofort auf. Ein Blick fürs Offensichtliche, den hat auch nicht jeder.'],
     ],
     again: [
       ['smug', 'Würde. Und keine Beine. Wie gehabt.'],
@@ -185,8 +182,8 @@ const STORY = {
   who: {
     pages: [
       ['surprised', 'Wer ich bin?!'],
-      ['smug', 'Henning. Gastgeber, Geburtstagskind, Gesamtkunstwerk. Die Reihenfolge ist verhandelbar, der Inhalt nicht.'],
-      ['neutral', 'Ich verstehe die Frage aber. Bei so viel Ausstrahlung verliert man leicht den Überblick.'],
+      ['smug', 'Henning. Gastgeber, Geburtstagskind, Gesamtkunstwerk.'],
+      ['neutral', 'Aber frag ruhig. Gesichter sind schwierig, vor allem, wenn sonst nichts dranhängt.'],
     ],
     again: [
       ['smug', 'Henning. Immer noch. Zum Glück.'],
@@ -195,8 +192,8 @@ const STORY = {
   },
   nameAsk: {
     pages: [
-      ['neutral', 'Aber genug von mir. Reden wir über dich. Wie heißt du eigentlich?'],
-      ['smug', 'Tipp deinen Namen ein. Ich merke ihn mir. Ich habe ein fantastisches Gedächtnis für, äh, Dinge.'],
+      ['neutral', 'Genug von mir. Vorerst. Wie heißt du eigentlich?'],
+      ['smug', 'Tipp deinen Namen ein. Ich merke ihn mir. Wahrscheinlich.'],
     ],
     again: [
       ['neutral', 'Dein Name. Du kennst das Spiel.'],
@@ -206,10 +203,10 @@ const STORY = {
   nameCut: {
     pages: [
       ['annoyed', '„{typed}…“  Stopp, stopp, stopp.'],
-      ['neutral', 'Das dauert. Nimm es nicht persönlich, aber in der Zeit hätte ich drei Anekdoten erzählen können. Gute.'],
-      ['smug', 'Ich übernehme das. Namen vergeben ist eine meiner vielen unterschätzten Begabungen. Du heißt ab sofort:'],
+      ['neutral', 'Bei dem Tempo feiern wir meinen 34. Nimm es nicht persönlich, ich mache das eben selbst.'],
+      ['smug', 'Du heißt ab sofort:'],
       ['happy', '{name}!'],
-      ['smug', 'Herausragend. Der steht dir. Den hätte man dir gleich bei der Geburt geben sollen.'],
+      ['smug', 'Herausragend. Passt besser zu dir als das, was du da gerade tippen wolltest.'],
     ],
     again: [
       ['annoyed', '„{typed}…“  Dauert.'],
@@ -221,7 +218,7 @@ const STORY = {
   },
   nameNo: {
     pages: [
-      ['smug', 'Noch nicht. Aber ein guter Name ist wie ich: Man gewöhnt sich daran und will dann nichts anderes mehr.'],
+      ['smug', 'Jetzt schon. Du gewöhnst dich daran. An mich hast du dich ja auch gewöhnt.'],
     ],
     again: [
       ['smug', 'Doch, doch.'],
@@ -230,7 +227,7 @@ const STORY = {
   },
   nameYes: {
     pages: [
-      ['happy', 'Natürlich gefällt er dir. Er ist von mir. Wir haben beide Geschmack, das verbindet.'],
+      ['happy', 'Natürlich gefällt er dir. Er ist von mir. Du hast Geschmack, zumindest geliehenen.'],
     ],
     again: [
       ['happy', 'Mir auch.'],
@@ -240,9 +237,9 @@ const STORY = {
   nameNew: {
     reroll: true,
     pages: [
-      ['neutral', 'Einen anderen? Mutig. Aber gut, ich bin für meine Großzügigkeit bekannt. Vor allem bei mir.'],
+      ['neutral', 'Wählerisch auch noch. Na gut, ich bin heute großzügig.'],
       ['happy', '{name}!'],
-      ['smug', 'Noch besser. Ich übertreffe mich mal wieder selbst. Anstrengend, aber irgendwer muss es ja tun.'],
+      ['smug', 'Mein letztes Angebot. Besser wird es nicht, ich bin ja kein Zauberer. Obwohl.'],
     ],
     again: [
       ['neutral', 'Na gut.'],
@@ -254,25 +251,24 @@ const STORY = {
   party: {
     pages: [
       ['neutral', 'Zur Sache, {name}.'],
-      ['happy', 'Ich werde 33! Ein exzellentes Alter. Jung genug für Unsinn und alt genug, ihn gut zu begründen.'],
-      ['smug', 'Mit 33 hat man ja schon einiges erreicht. Ich hatte neulich zum Beispiel einen Gedanken, der war so brillant, dass'],
-      ['neutral', 'Moment. Wo war ich? Ich höre mir so gern zu, dass ich manchmal vergesse, dass noch jemand da ist.'],
-      ['happy', 'Ach ja, die Feier! Freitag, 18.12., ab 18 Uhr. Beim Rauhen Hause 45 in Hamburg.'],
-      ['neutral', 'Steht auch auf der Einladung. Aber aus meinem Mund klingt es einfach besser. Hast du Fragen?'],
+      ['happy', 'Ich werde 33! Ein exzellentes Alter. Ich sehe fantastisch aus, danke, dass es dir aufgefallen ist.'],
+      ['neutral', 'Freitag, 18.12., ab 18 Uhr. Beim Rauhen Hause 45 in Hamburg.'],
+      ['smug', 'Stand auch auf der Einladung. Aber ich ahne, dass du dort hauptsächlich das Einhorn angeschaut hast.'],
+      ['neutral', 'Fragen? Trau dich ruhig.'],
     ],
     again: [
       ['neutral', 'Kurzfassung, {name}.'],
       ['happy', 'Ich werde 33. Immer noch exzellent.'],
       ['neutral', 'Freitag, 18.12., 18 Uhr. Beim Rauhen Hause 45, Hamburg.'],
-      ['smug', 'Ich könnte ausholen. Ich lasse es. Bewundere meine Disziplin.'],
+      ['smug', 'Diesmal mitgeschrieben?'],
     ],
     choices: [['Was gibt es zu trinken?', 'drink'], ['Muss ich was mitbringen?', 'bring'], ['33? So alt schon?', 'old']],
   },
   drink: {
     pages: [
-      ['happy', 'Eine fantastische Frage. Du denkst mit, das gefällt mir.'],
-      ['smug', 'Es wird feucht und es wird fröhlich. Ich habe die Getränke persönlich ausgewählt, mein Geschmack ist legendär.'],
-      ['neutral', 'Ich könnte dir jede Flasche einzeln vorstellen. Herkunft, Charakter, Abgang. Aber dann stehen wir am 18.12. noch hier.'],
+      ['happy', 'Eine fantastische Frage. Man merkt sofort, wo deine Prioritäten liegen.'],
+      ['smug', 'Es wird feucht und es wird fröhlich. Die Getränke habe ich ausgesucht, also sind sie exzellent.'],
+      ['neutral', 'Du musst nur noch mithalten. Ich glaube an dich. Halbwegs.'],
     ],
     again: [
       ['smug', 'Getränke: reichlich. Von mir ausgesucht. Also perfekt.'],
@@ -281,8 +277,8 @@ const STORY = {
   },
   bring: {
     pages: [
-      ['neutral', 'Gute Laune und Durst. Mehr braucht es nicht, für den Glanz des Abends sorge ich schon selbst.'],
-      ['smug', 'Snacks sind willkommen. Ich lobe sie dann, als wären sie von mir. Eine höhere Auszeichnung vergebe ich nicht.'],
+      ['neutral', 'Gute Laune und Durst. Für den Glanz des Abends sorge ich.'],
+      ['smug', 'Snacks sind willkommen. Ich bin gespannt, was du unter „selbstgemacht“ verstehst.'],
       ['neutral', 'Alles Weitere steht in der Gruppe.'],
     ],
     again: [
@@ -293,8 +289,8 @@ const STORY = {
   old: {
     pages: [
       ['surprised', 'Alt?!'],
-      ['smug', 'Ich bin nicht alt, ich bin ausgereift. Wie ein herausragender Wein. Oder ein sehr guter Käse.'],
-      ['neutral', 'Nur dass ich besser rieche. Meistens.'],
+      ['smug', 'Ich bin nicht alt, ich bin ausgereift. Wie ein herausragender Wein.'],
+      ['neutral', 'Du hältst dich aber auch tapfer. Für eine Schorle.'],
     ],
     again: [
       ['smug', 'Ausgereift. Nicht alt. Wein, Käse, du erinnerst dich.'],
@@ -303,7 +299,7 @@ const STORY = {
   },
   ask: {
     pages: [
-      ['neutral', 'So, {name}. Ich habe jetzt lange genug, nein, genau richtig lange geredet. Jetzt bist du dran.'],
+      ['neutral', 'So, {name}. Jetzt kommt dein großer Moment. Genau ein Wort. Das schaffst du.'],
       ['happy', 'Bist du dabei?'],
     ],
     again: [
@@ -314,9 +310,8 @@ const STORY = {
   },
   no1: {
     pages: [
-      ['surprised', 'Oh. Das habe ich jetzt akustisch nicht verstanden. Inhaltlich auch nicht.'],
-      ['smug', 'Sieh mal: Ein Abend mit mir ist wie ein Abend mit mir. Es gibt keinen Vergleich. Ich habe gesucht.'],
-      ['happy', 'Ich frage einfach nochmal, ganz unvoreingenommen: Bist du dabei?'],
+      ['surprised', 'Oh. Du hast dich vertippt. Passiert den Besten. Und dir eben auch.'],
+      ['happy', 'Ich frage einfach nochmal: Bist du dabei?'],
     ],
     again: [
       ['surprised', 'Wieder nein? Du hast Humor.'],
@@ -326,9 +321,9 @@ const STORY = {
   },
   no2: {
     pages: [
-      ['neutral', 'Ich respektiere deine Pläne. Wirklich. Ich habe selbst oft welche.'],
-      ['smug', 'Aber stell dir vor, du musst später sagen: „Ich war nicht bei Hennings 33.“ Das will doch niemand.'],
-      ['happy', 'Ich würde es mir an deiner Stelle nicht verzeihen. Und ich verzeihe mir sonst alles. Also: Bist du dabei?'],
+      ['neutral', 'Du hast schon etwas vor? Am selben Abend wie ich? Mutige Terminplanung.'],
+      ['smug', 'Sag es ab. Die verstehen das, die wären ja selbst lieber bei mir.'],
+      ['happy', 'Also: Bist du dabei?'],
     ],
     again: [
       ['smug', 'Deine Pläne in Ehren. Meine sind besser.'],
@@ -338,9 +333,9 @@ const STORY = {
   },
   no3: {
     pages: [
-      ['surprised', 'Diese Standhaftigkeit! Herausragend. Das habe ich sonst nur bei mir selbst gesehen.'],
-      ['smug', 'Weißt du was? Ich nehme dir die Entscheidung ab. Das mache ich gern, ich entscheide exzellent.'],
-      ['happy', 'Bitte sehr. Bist du dabei?'],
+      ['surprised', 'Diese Sturheit! Herausragend. Fast so gut wie meine.'],
+      ['smug', 'Ich habe dir die Auswahl etwas erleichtert. Gern geschehen.'],
+      ['happy', 'Bist du dabei?'],
     ],
     again: [
       ['smug', 'Ich entscheide wieder für dich. Gern geschehen.'],
@@ -349,8 +344,8 @@ const STORY = {
   },
   yes: {
     pages: [
-      ['happy', 'Exzellent! Eine herausragende Entscheidung. Ich hätte genauso entschieden, und ich irre mich nie.'],
-      ['smug', 'Einmal dachte ich, ich hätte mich geirrt. Aber das war ein Irrtum.'],
+      ['happy', 'Exzellent! Eine herausragende Entscheidung.'],
+      ['smug', 'Vermutlich deine beste diese Woche. Und ich habe sogar ein bisschen geholfen.'],
     ],
     again: [
       ['happy', 'Exzellent. Wie beim ersten Mal.'],
@@ -359,8 +354,8 @@ const STORY = {
   },
   yesForced: {
     pages: [
-      ['happy', 'Fantastisch! Ich wusste es. Ich habe ein untrügliches Gespür für Menschen.'],
-      ['smug', 'Und für Wein. Und für Timing. Eigentlich für alles, aber ich will nicht angeben.'],
+      ['happy', 'Fantastisch! Ich wusste, dass du ganz von allein darauf kommst.'],
+      ['smug', 'Na gut. Fast von allein.'],
     ],
     again: [
       ['happy', 'Fantastisch. Ich wusste es. Wieder.'],
@@ -371,8 +366,8 @@ const STORY = {
     scene: 'bier',
     pages: [
       ['neutral', 'Das Einhorn kennst du ja schon. Es ist inzwischen beim dritten Bier.'],
-      ['smug', 'Ein exzellentes Tier. Trinkfest, elegant, etwas eitel. Wir verstehen uns blendend, ich weiß gar nicht, warum.'],
-      ['surprised', 'Es lässt mich übrigens nie ausreden. Unfassbar. So etwas würde mir nie einfallen.'],
+      ['smug', 'Es trinkt mehr als du. Nimm es sportlich, es hat ja auch vier Beine zum Stehen.'],
+      ['annoyed', 'Und es lässt mich nie ausreden. Unfassbar. So etwas würde mir nie einfallen.'],
     ],
     again: [
       ['neutral', 'Das Einhorn. Inzwischen beim fünften Bier.'],
@@ -382,9 +377,9 @@ const STORY = {
   },
   end: {
     pages: [
-      ['neutral', 'So, {name}. Gleich erscheint unten ein Knopf. Der führt in die WhatsApp-Gruppe mit allen weiteren Infos.'],
-      ['happy', 'Ich freue mich auf dich. Wirklich. Fast so sehr wie auf mich.'],
-      ['smug', 'Und jetzt entschuldige mich, ich habe mir noch einiges zu erzählen.'],
+      ['neutral', 'So, {name}. Unten erscheint gleich ein Knopf. Der führt in die WhatsApp-Gruppe mit allen Infos.'],
+      ['happy', 'Drück ihn. Das schaffst du, ich habe ihn extra groß gemacht.'],
+      ['smug', 'Ich freue mich auf dich. Fast so sehr wie auf mich.'],
     ],
     again: [
       ['neutral', 'Unten kommt der Knopf zur Gruppe.'],
